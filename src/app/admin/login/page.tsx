@@ -141,17 +141,6 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
-
-          {/* Helper Credentials Box */}
-          <div className="mt-6 pt-5 border-t border-stone-100 bg-stone-50/70 p-3.5 rounded-2xl text-[11px] text-stone-500 space-y-1">
-            <p className="font-semibold text-stone-700">Kredensial Login Default:</p>
-            <p className="font-mono text-stone-800">
-              Username: <strong className="text-stone-900">adminblog</strong>
-            </p>
-            <p className="font-mono text-stone-800">
-              Password: <strong className="text-stone-900">blogadmin</strong>
-            </p>
-          </div>
         </div>
 
         {/* Back to Public Home */}
