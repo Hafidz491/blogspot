@@ -14,8 +14,8 @@ export default function AdminLayout({
   const router = useRouter();
   const [loggingOut, setLoggingOut] = useState(false);
 
-  // If on login page, render clean layout without admin topbar
-  if (pathname === "/admin/login") {
+  // If on login or setup page, render clean layout without admin topbar
+  if (pathname === "/admin/login" || pathname === "/admin/setup") {
     return <>{children}</>;
   }
 
@@ -81,7 +81,7 @@ export default function AdminLayout({
             {/* User Badge */}
             <div className="hidden md:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-stone-100 text-stone-700 text-xs font-mono">
               <User className="w-3 h-3 text-stone-500" />
-              <span>adminblog</span>
+              <span>Administrator</span>
             </div>
 
             <Link

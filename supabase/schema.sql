@@ -6,10 +6,7 @@
 -- 1. Enable UUID Extension (jika belum aktif)
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
 
--- 2. Drop existing table if need a clean reset (opsional)
--- DROP TABLE IF EXISTS posts CASCADE;
-
--- 3. Create Posts Table
+-- 2. Create Posts Table
 CREATE TABLE IF NOT EXISTS public.posts (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     title TEXT NOT NULL,
@@ -26,13 +23,13 @@ CREATE TABLE IF NOT EXISTS public.posts (
     updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
--- 4. Create Indexes for High Performance Queries
+-- 3. Create Indexes for High Performance Queries
 CREATE INDEX IF NOT EXISTS idx_posts_slug ON public.posts(slug);
 CREATE INDEX IF NOT EXISTS idx_posts_status ON public.posts(status);
 CREATE INDEX IF NOT EXISTS idx_posts_published_at ON public.posts(published_at DESC);
 CREATE INDEX IF NOT EXISTS idx_posts_category ON public.posts(category);
 
--- 5. Trigger Auto Update for `updated_at`
+-- 4. Trigger Auto Update for `updated_at`
 CREATE OR REPLACE FUNCTION public.handle_updated_at()
 RETURNS TRIGGER AS $$
 BEGIN
@@ -47,7 +44,7 @@ CREATE TRIGGER trigger_set_posts_updated_at
     FOR EACH ROW
     EXECUTE FUNCTION public.handle_updated_at();
 
--- 6. Enable Row Level Security (RLS)
+-- 5. Enable Row Level Security (RLS) on posts
 ALTER TABLE public.posts ENABLE ROW LEVEL SECURITY;
 
 -- Policy 1: Siapapun (publik) boleh membaca postingan yang berstatus 'published'
@@ -68,7 +65,7 @@ WITH CHECK (true);
 
 
 -- ==========================================================
--- 7. SUPABASE STORAGE BUCKET CONFIGURATION
+-- 6. SUPABASE STORAGE BUCKET CONFIGURATION
 -- ==========================================================
 
 -- Buat storage bucket 'blog-media' jika belum ada (Public Bucket)
@@ -107,29 +104,36 @@ USING (bucket_id = 'blog-media');
 
 
 -- ==========================================================
--- 8. TABEL ADMIN USERS & AUTENTIKASI
+-- 7. TABEL ADMIN USERS & KEAMANAN AUTENTIKASI
 -- ==========================================================
 
 CREATE TABLE IF NOT EXISTS public.admin_users (
     id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
     username TEXT UNIQUE NOT NULL,
     password_hash TEXT NOT NULL,
+    email TEXT,
     role TEXT NOT NULL DEFAULT 'admin',
     created_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
 ALTER TABLE public.admin_users ENABLE ROW LEVEL SECURITY;
 
+-- Kebijakan: Izinkan pengecekan login admin
 DROP POLICY IF EXISTS "Allow select for login authentication" ON public.admin_users;
 CREATE POLICY "Allow select for login authentication"
 ON public.admin_users FOR SELECT
 TO anon, authenticated, service_role
 USING (true);
 
--- Insert Akun Admin Default:
--- Username: adminblog
--- Password: blogadmin
-INSERT INTO public.admin_users (username, password_hash, role)
-VALUES ('adminblog', 'blogadmin', 'admin')
-ON CONFLICT (username) DO UPDATE
-SET password_hash = 'blogadmin', role = 'admin';
+-- Kebijakan: Izinkan pembuatan akun admin pertama melalui setup
+DROP POLICY IF EXISTS "Allow insert for admin setup" ON public.admin_users;
+CREATE POLICY "Allow insert for admin setup"
+ON public.admin_users FOR INSERT
+TO anon, authenticated, service_role
+WITH CHECK (true);
+
+-- Catatan Keamanan:
+-- Username dan Password TIDAK ditulis di file ini demi menjaga kerahasiaan Anda.
+-- Buat akun admin Anda yang aman melalui:
+-- 1. Web Wizard: Buka http://localhost:3000/admin/setup di browser Anda
+-- 2. Atau Jalankan CLI di Terminal: npm run create-admin

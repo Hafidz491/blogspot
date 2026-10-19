@@ -1,8 +1,9 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, ArrowRight } from "lucide-react";
+import Link from "next/link";
+import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, ArrowRight, UserPlus } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -11,6 +12,22 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [showSetupPrompt, setShowSetupPrompt] = useState(false);
+
+  useEffect(() => {
+    async function checkAdminExists() {
+      try {
+        const res = await fetch("/api/admin/setup");
+        const data = await res.json();
+        if (data.hasAdmin === false) {
+          setShowSetupPrompt(true);
+        }
+      } catch (e) {
+        console.warn(e);
+      }
+    }
+    checkAdminExists();
+  }, []);
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +83,7 @@ export default function AdminLoginPage() {
         {/* Login Card */}
         <div className="bg-white rounded-3xl p-8 border border-stone-200/90 shadow-sm">
           {errorMessage && (
-            <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium animate-in fade-in">
+            <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium animate-in fade-in leading-relaxed">
               {errorMessage}
             </div>
           )}
@@ -84,7 +101,7 @@ export default function AdminLoginPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="adminblog"
+                  placeholder="Masukkan username Anda"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                   autoComplete="username"
                 />
@@ -141,16 +158,30 @@ export default function AdminLoginPage() {
               )}
             </button>
           </form>
+
+          {/* First Time Setup Helper (Only shown when 0 admin exists) */}
+          {showSetupPrompt && (
+            <div className="mt-5 p-3.5 bg-amber-50 rounded-2xl border border-amber-200/80 text-center text-xs">
+              <p className="text-amber-900 font-medium">Belum memiliki akun admin di database?</p>
+              <Link
+                href="/admin/setup"
+                className="inline-flex items-center gap-1 font-bold text-amber-950 underline underline-offset-2 mt-1 hover:text-amber-800 transition"
+              >
+                <UserPlus className="w-3.5 h-3.5" />
+                <span>Setup Akun Admin Pertama Anda Di Sini</span>
+              </Link>
+            </div>
+          )}
         </div>
 
         {/* Back to Public Home */}
         <div className="text-center mt-6">
-          <a
+          <Link
             href="/blogs"
             className="text-xs font-medium text-stone-500 hover:text-stone-900 transition underline underline-offset-4"
           >
             ← Kembali ke Halaman Utama Blog
-          </a>
+          </Link>
         </div>
       </div>
     </div>

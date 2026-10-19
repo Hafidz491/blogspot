@@ -10,6 +10,7 @@ export function middleware(request: NextRequest) {
   if (pathname.startsWith("/admin")) {
     const sessionCookie = request.cookies.get(ADMIN_COOKIE_NAME)?.value;
     const isLoginPage = pathname === "/admin/login";
+    const isSetupPage = pathname === "/admin/setup";
 
     // Basic session validation
     let isValidSession = false;
@@ -26,6 +27,14 @@ export function middleware(request: NextRequest) {
       } catch {
         isValidSession = false;
       }
+    }
+
+    // Allow setup page for first-time admin creation
+    if (isSetupPage) {
+      if (isValidSession) {
+        return NextResponse.redirect(new URL("/admin/posts", request.url));
+      }
+      return NextResponse.next();
     }
 
     // 1. If visiting /admin/login while already authenticated, redirect to /admin/posts
