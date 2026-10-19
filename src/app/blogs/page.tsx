@@ -7,6 +7,8 @@ import PostCard from "@/components/public/PostCard";
 import NewsletterCard from "@/components/public/NewsletterCard";
 import { Post } from "@/types/blog";
 import { getPublishedPosts } from "@/lib/blog-service";
+import { getSiteSettings } from "@/lib/settings-service";
+import { SiteSettings, DEFAULT_SITE_SETTINGS } from "@/types/settings";
 import { Search, ChevronDown, Loader2, BookOpen } from "lucide-react";
 import { INITIAL_POSTS } from "@/lib/mock-data";
 
@@ -23,10 +25,23 @@ const CATEGORIES = [
 
 export default function BlogsPage() {
   const [posts, setPosts] = useState<Post[]>(INITIAL_POSTS);
+  const [settings, setSettings] = useState<SiteSettings>(DEFAULT_SITE_SETTINGS);
   const [loading, setLoading] = useState(false);
   const [selectedCategory, setSelectedCategory] = useState("All");
   const [searchQuery, setSearchQuery] = useState("");
   const [filterDropdownOpen, setFilterDropdownOpen] = useState(false);
+
+  useEffect(() => {
+    async function loadSettings() {
+      try {
+        const s = await getSiteSettings();
+        if (s) setSettings(s);
+      } catch (err) {
+        console.error("Failed to load site settings:", err);
+      }
+    }
+    loadSettings();
+  }, []);
 
   useEffect(() => {
     async function loadData() {
@@ -53,20 +68,24 @@ export default function BlogsPage() {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col font-sans">
-      <Navbar />
+      <Navbar brandName={settings.brandName} />
 
       <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
-        {/* Modern & Lively Grand Title */}
+        {/* Dynamic Grand Hero Title */}
         <div className="text-center mb-10 md:mb-14">
-          <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold tracking-wider uppercase mb-3">
-            Editorial & Insights
-          </div>
+          {settings.heroBadge && (
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold tracking-wider uppercase mb-3">
+              {settings.heroBadge}
+            </div>
+          )}
           <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold text-stone-900 tracking-tight">
-            The Kindsight Blog
+            {settings.heroTitle}
           </h1>
-          <p className="mt-3.5 text-stone-600 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
-            Practical strategies, thoughtful perspectives, and tools for modern philanthropy.
-          </p>
+          {settings.heroDescription && (
+            <p className="mt-3.5 text-stone-600 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+              {settings.heroDescription}
+            </p>
+          )}
         </div>
 
         {/* Filter and Search Controls Bar */}
@@ -162,7 +181,7 @@ export default function BlogsPage() {
 
             {/* Newsletter Subscription Box */}
             <div className="max-w-xl mx-auto">
-              <NewsletterCard />
+              <NewsletterCard settings={settings} />
             </div>
           </div>
         ) : (
@@ -171,7 +190,7 @@ export default function BlogsPage() {
               if (index === 5) {
                 return (
                   <React.Fragment key="newsletter-slot">
-                    <NewsletterCard />
+                    <NewsletterCard settings={settings} />
                     <PostCard post={post} />
                   </React.Fragment>
                 );
@@ -179,12 +198,12 @@ export default function BlogsPage() {
               return <PostCard key={post.id} post={post} />;
             })}
 
-            {posts.length < 5 && <NewsletterCard />}
+            {posts.length < 5 && <NewsletterCard settings={settings} />}
           </div>
         )}
       </main>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

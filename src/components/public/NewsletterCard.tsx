@@ -2,8 +2,14 @@
 
 import React, { useState } from "react";
 import { Check, Sparkles } from "lucide-react";
+import { SiteSettings, DEFAULT_SITE_SETTINGS } from "@/types/settings";
 
-export default function NewsletterCard() {
+export default function NewsletterCard({
+  settings = DEFAULT_SITE_SETTINGS,
+}: {
+  settings?: Partial<SiteSettings>;
+}) {
+  const s = { ...DEFAULT_SITE_SETTINGS, ...settings };
   const [email, setEmail] = useState("");
   const [subscribed, setSubscribed] = useState(false);
 
@@ -25,21 +31,15 @@ export default function NewsletterCard() {
       <div>
         <div className="inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-amber-900 bg-amber-100/60 px-2.5 py-0.5 rounded-full mb-3">
           <Sparkles className="w-3 h-3 text-amber-700" />
-          <span>VIP Newsletter</span>
+          <span>{s.newsletterBadge}</span>
         </div>
 
         <h3 className="font-heading text-2xl md:text-3xl font-extrabold text-stone-900 tracking-tight leading-snug">
-          Be the <span className="text-amber-800 underline decoration-amber-400 decoration-2 underline-offset-4">first</span>
-          <br />
-          to read our
-          <br />
-          resources.
+          {s.newsletterTitle}
         </h3>
 
         <p className="mt-4 text-xs md:text-[13px] text-stone-700 leading-relaxed font-sans">
-          The creative fundraising revolution — and our collaborative ideas
-          starting in our VIP inbox will provide you real insights and
-          transparency sent straight to your inbox.
+          {s.newsletterDescription}
         </p>
       </div>
 
@@ -80,7 +80,7 @@ export default function NewsletterCard() {
               type="submit"
               className="w-full py-2.5 px-4 rounded-full bg-stone-900 text-white text-xs font-bold hover:bg-black transition duration-200 shadow-xs"
             >
-              Subscribe Now
+              {s.newsletterButtonText}
             </button>
           </form>
         )}

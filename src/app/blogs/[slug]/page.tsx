@@ -8,6 +8,7 @@ import Footer from "@/components/public/Footer";
 import NewsletterCard from "@/components/public/NewsletterCard";
 import ShareButtons from "@/components/public/ShareButtons";
 import { getPostBySlug, getPublishedPosts } from "@/lib/blog-service";
+import { getSiteSettings } from "@/lib/settings-service";
 import { formatDate } from "@/lib/utils";
 import type { Metadata } from "next";
 
@@ -40,7 +41,10 @@ export async function generateMetadata({
 
 export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
   const { slug } = await params;
-  const post = await getPostBySlug(slug);
+  const [post, settings] = await Promise.all([
+    getPostBySlug(slug),
+    getSiteSettings(),
+  ]);
 
   if (!post) {
     notFound();
@@ -52,7 +56,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col">
-      <Navbar />
+      <Navbar brandName={settings.brandName} />
 
       <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
         {/* Navigation Breadcrumb */}
@@ -135,7 +139,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Newsletter Section */}
         <div className="mt-14">
-          <NewsletterCard />
+          <NewsletterCard settings={settings} />
         </div>
 
         {/* Read Next Section */}
@@ -167,7 +171,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         )}
       </main>
 
-      <Footer />
+      <Footer settings={settings} />
     </div>
   );
 }

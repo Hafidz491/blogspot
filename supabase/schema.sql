@@ -137,3 +137,32 @@ WITH CHECK (true);
 -- Buat akun admin Anda yang aman melalui:
 -- 1. Web Wizard: Buka http://localhost:3000/admin/setup di browser Anda
 -- 2. Atau Jalankan CLI di Terminal: npm run create-admin
+
+
+-- ==========================================================
+-- 8. TABEL SITE SETTINGS (PENGATURAN KONTEN WEB DINAMIS)
+-- ==========================================================
+
+CREATE TABLE IF NOT EXISTS public.site_settings (
+    id TEXT PRIMARY KEY DEFAULT 'general',
+    settings JSONB NOT NULL,
+    updated_at TIMESTAMPTZ DEFAULT timezone('utc'::text, now()) NOT NULL
+);
+
+ALTER TABLE public.site_settings ENABLE ROW LEVEL SECURITY;
+
+-- Kebijakan: Publik dapat membaca konfigurasi konten web
+DROP POLICY IF EXISTS "Public can view site settings" ON public.site_settings;
+CREATE POLICY "Public can view site settings"
+ON public.site_settings FOR SELECT
+TO anon, authenticated, service_role
+USING (true);
+
+-- Kebijakan: Admin/Server dapat mengupdate konfigurasi konten web
+DROP POLICY IF EXISTS "Allow manage site settings" ON public.site_settings;
+CREATE POLICY "Allow manage site settings"
+ON public.site_settings FOR ALL
+TO anon, authenticated, service_role
+USING (true)
+WITH CHECK (true);
+

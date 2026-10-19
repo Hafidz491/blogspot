@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { FileText, PlusCircle, ExternalLink, LogOut, Loader2, User } from "lucide-react";
+import { FileText, PlusCircle, Sliders, ExternalLink, LogOut, Loader2, User } from "lucide-react";
 
 export default function AdminLayout({
   children,
@@ -72,6 +72,17 @@ export default function AdminLayout({
               >
                 <PlusCircle className="w-3.5 h-3.5 text-amber-700" />
                 <span>Tulis Artikel Baru</span>
+              </Link>
+              <Link
+                href="/admin/settings"
+                className={`px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 ${
+                  pathname === "/admin/settings"
+                    ? "bg-stone-100 text-stone-900 font-bold"
+                    : "hover:bg-stone-100 hover:text-stone-900"
+                }`}
+              >
+                <Sliders className="w-3.5 h-3.5 text-stone-500" />
+                <span>Pengaturan Web</span>
               </Link>
             </nav>
           </div>

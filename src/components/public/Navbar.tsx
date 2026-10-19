@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Menu, X } from "lucide-react";
 
-export default function Navbar() {
+export default function Navbar({ brandName = "Kindsight" }: { brandName?: string }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
@@ -13,7 +13,7 @@ export default function Navbar() {
         {/* Brand Logo */}
         <Link href="/blogs" className="flex items-center gap-2 group">
           <span className="font-heading text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-800 transition">
-            Kindsight
+            {brandName}
           </span>
         </Link>
 
