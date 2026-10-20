@@ -58,9 +58,9 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col">
       <Navbar brandName={settings.brandName} />
 
-      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <main className="flex-1 max-w-4xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-10 md:py-16">
         {/* Navigation Breadcrumb */}
-        <div className="mb-8">
+        <div className="mb-6 sm:mb-8">
           <Link
             href="/blogs"
             className="inline-flex items-center gap-2 text-xs font-medium text-stone-600 hover:text-stone-900 transition"
@@ -71,29 +71,29 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
         </div>
 
         {/* Article Header */}
-        <header className="space-y-4 mb-10 text-center sm:text-left">
-          <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5 text-xs">
-            <span className="px-3 py-1 rounded-full bg-stone-200/80 font-semibold text-stone-800 uppercase tracking-wider text-[11px]">
+        <header className="space-y-4 mb-8 sm:mb-10 text-left">
+          <div className="flex flex-wrap items-center justify-start gap-2 sm:gap-2.5 text-xs">
+            <span className="px-2.5 py-1 rounded-full bg-stone-200/80 font-semibold text-stone-800 uppercase tracking-wider text-[10px] sm:text-[11px]">
               {post.category || "Tips"}
             </span>
             <span className="text-stone-400">•</span>
-            <span className="text-stone-500 flex items-center gap-1">
+            <span className="text-stone-500 flex items-center gap-1 text-[11px] sm:text-xs">
               <Calendar className="w-3.5 h-3.5" />
               {formatDate(post.published_at)}
             </span>
             <span className="text-stone-400">•</span>
-            <span className="text-stone-500 flex items-center gap-1">
+            <span className="text-stone-500 flex items-center gap-1 text-[11px] sm:text-xs">
               <Clock className="w-3.5 h-3.5" />
               {post.reading_time || "5 min read"}
             </span>
           </div>
 
-          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight tracking-tight">
+          <h1 className="font-heading text-2xl sm:text-4xl md:text-5xl font-extrabold text-stone-900 leading-tight tracking-tight">
             {post.title}
           </h1>
 
           {post.excerpt && (
-            <p className="text-base sm:text-lg text-stone-600 leading-relaxed font-sans max-w-3xl">
+            <p className="text-sm sm:text-base md:text-lg text-stone-600 leading-relaxed font-sans max-w-3xl">
               {post.excerpt}
             </p>
           )}
@@ -101,7 +101,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
           {/* Author Details & Share Controls */}
           <div className="pt-4 border-t border-stone-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-heading font-bold text-sm">
+              <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-amber-100 text-amber-900 flex items-center justify-center font-heading font-bold text-sm">
                 {(post.author_name || "E").charAt(0)}
               </div>
               <div>
@@ -118,7 +118,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Featured Image Thumbnail */}
         {post.thumbnail_url && (
-          <div className="relative aspect-[16/9] w-full rounded-2xl overflow-hidden bg-stone-100 shadow-sm mb-12">
+          <div className="relative aspect-[16/9] w-full rounded-xl sm:rounded-2xl overflow-hidden bg-stone-100 shadow-xs mb-8 sm:mb-12">
             <Image
               src={post.thumbnail_url}
               alt={post.title}
@@ -133,7 +133,7 @@ export default async function BlogDetailPage({ params }: BlogDetailPageProps) {
 
         {/* Article Body Content (Rich Text Rendered) */}
         <article
-          className="prose-editorial bg-white p-8 sm:p-12 rounded-3xl border border-stone-200/80 shadow-xs"
+          className="prose-editorial bg-white p-5 sm:p-8 md:p-12 rounded-2xl sm:rounded-3xl border border-stone-200/80 shadow-xs overflow-hidden"
           dangerouslySetInnerHTML={{ __html: post.content }}
         />
 

@@ -38,9 +38,18 @@ input[type="reset"]:disabled {
 /* Modern Article Typography & Rich Text Renderer */
 .prose-editorial {
   color: #292524;
-  line-height: 1.85;
-  font-size: 1.125rem;
+  line-height: 1.8;
+  font-size: 1rem;
   font-family: var(--font-sans), sans-serif;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+
+@media (min-width: 640px) {
+  .prose-editorial {
+    font-size: 1.125rem;
+    line-height: 1.85;
+  }
 }
 
 .prose-editorial h1,
@@ -53,24 +62,48 @@ input[type="reset"]:disabled {
 }
 
 .prose-editorial h1 {
-  font-size: 2.25rem;
-  margin-top: 2.5rem;
-  margin-bottom: 1.25rem;
+  font-size: 1.75rem;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
   line-height: 1.25;
 }
 
+@media (min-width: 640px) {
+  .prose-editorial h1 {
+    font-size: 2.25rem;
+    margin-top: 2.5rem;
+    margin-bottom: 1.25rem;
+  }
+}
+
 .prose-editorial h2 {
-  font-size: 1.75rem;
-  margin-top: 2.25rem;
-  margin-bottom: 1rem;
+  font-size: 1.4rem;
+  margin-top: 1.75rem;
+  margin-bottom: 0.75rem;
   line-height: 1.35;
 }
 
+@media (min-width: 640px) {
+  .prose-editorial h2 {
+    font-size: 1.75rem;
+    margin-top: 2.25rem;
+    margin-bottom: 1rem;
+  }
+}
+
 .prose-editorial h3 {
-  font-size: 1.35rem;
-  margin-top: 1.75rem;
-  margin-bottom: 0.75rem;
+  font-size: 1.2rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.65rem;
   line-height: 1.4;
+}
+
+@media (min-width: 640px) {
+  .prose-editorial h3 {
+    font-size: 1.35rem;
+    margin-top: 1.75rem;
+    margin-bottom: 0.75rem;
+  }
 }
 
 .prose-editorial p {

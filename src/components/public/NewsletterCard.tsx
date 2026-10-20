@@ -26,7 +26,7 @@ export default function NewsletterCard({
   return (
     <div
       id="newsletter"
-      className="bg-[#EBE5DC] rounded-2xl p-7 flex flex-col justify-between border border-[#DFD8CE] shadow-2xs"
+      className="bg-[#EBE5DC] rounded-2xl p-5 sm:p-7 flex flex-col justify-between border border-[#DFD8CE] shadow-2xs"
     >
       <div>
         <div className="inline-flex items-center gap-1 text-[11px] font-bold tracking-wider uppercase text-amber-900 bg-amber-100/60 px-2.5 py-0.5 rounded-full mb-3">

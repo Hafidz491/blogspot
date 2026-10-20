@@ -167,15 +167,15 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
         </div>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2.5">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
           {/* Save as Draft Button */}
           <button
             type="button"
             disabled={isSubmitting}
             onClick={(e) => handleSubmit(e, "draft")}
-            className="px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 font-medium text-xs md:text-sm flex items-center gap-2 transition disabled:opacity-50 shadow-2xs"
+            className="flex-1 sm:flex-initial px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 font-medium text-xs md:text-sm flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-2xs"
           >
-            <Save className="w-4 h-4 text-stone-500" />
+            <Save className="w-4 h-4 text-stone-500 shrink-0" />
             <span>Save as Draft</span>
           </button>
 
@@ -184,12 +184,12 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             type="button"
             disabled={isSubmitting}
             onClick={(e) => handleSubmit(e, "published")}
-            className="px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white font-medium text-xs md:text-sm flex items-center gap-2 transition disabled:opacity-50 shadow-xs"
+            className="flex-1 sm:flex-initial px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white font-medium text-xs md:text-sm flex items-center justify-center gap-2 transition disabled:opacity-50 shadow-xs"
           >
             {isSubmitting ? (
-              <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
+              <Loader2 className="w-4 h-4 animate-spin text-stone-300 shrink-0" />
             ) : (
-              <Globe className="w-4 h-4 text-emerald-400" />
+              <Globe className="w-4 h-4 text-emerald-400 shrink-0" />
             )}
             <span>{isEdit ? "Update & Publish" : "Publish Post"}</span>
           </button>
@@ -211,11 +211,11 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
       )}
 
       {/* Main Grid: Left Editor & Right Meta */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 lg:gap-8">
         {/* Left Column: Title, Slug, Excerpt, Rich Text Editor (2 Cols) */}
         <div className="lg:col-span-2 space-y-6">
           {/* Post Title */}
-          <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-4">
+          <div className="bg-white p-4 sm:p-6 rounded-2xl border border-stone-200 shadow-xs space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wider mb-2">
                 Post Title
@@ -226,16 +226,16 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                 value={formData.title}
                 onChange={handleTitleChange}
                 placeholder="e.g. Effective Strategies to Grow Your Nonprofit Community..."
-                className="w-full text-xl md:text-2xl font-heading font-bold text-stone-900 placeholder:text-stone-300 border-0 border-b border-stone-200 pb-3 focus:outline-none focus:border-stone-900 transition bg-transparent"
+                className="w-full text-lg sm:text-xl md:text-2xl font-heading font-bold text-stone-900 placeholder:text-stone-300 border-0 border-b border-stone-200 pb-3 focus:outline-none focus:border-stone-900 transition bg-transparent"
               />
             </div>
 
             {/* Auto Slug Generator Field */}
             <div className="pt-2">
-              <div className="flex items-center justify-between text-xs text-stone-500 mb-1.5">
+              <div className="flex flex-wrap items-center justify-between gap-1 text-xs text-stone-500 mb-1.5">
                 <span className="flex items-center gap-1.5 font-medium">
-                  <Sparkles className="w-3.5 h-3.5 text-amber-600" />
-                  URL Slug (Auto Generated)
+                  <Sparkles className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+                  <span>URL Slug</span>
                 </span>
                 <button
                   type="button"
@@ -244,13 +244,15 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                 >
                   {isSlugSynced ? (
                     <>
-                      <Lock className="w-3 h-3 text-emerald-600" />
-                      <span>Auto-sync active (Click to edit manually)</span>
+                      <Lock className="w-3 h-3 text-emerald-600 shrink-0" />
+                      <span className="hidden sm:inline">Auto-sync active (Click to edit manually)</span>
+                      <span className="sm:hidden">Auto-sync (Edit)</span>
                     </>
                   ) : (
                     <>
-                      <Unlock className="w-3 h-3 text-amber-600" />
-                      <span>Manual mode (Click to re-sync automatically)</span>
+                      <Unlock className="w-3 h-3 text-amber-600 shrink-0" />
+                      <span className="hidden sm:inline">Manual mode (Click to re-sync automatically)</span>
+                      <span className="sm:hidden">Manual (Sync)</span>
                     </>
                   )}
                 </button>
@@ -269,7 +271,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                     }))
                   }
                   placeholder="post-url-slug"
-                  className={`flex-1 bg-transparent border-none text-xs font-mono text-stone-800 focus:outline-none ${
+                  className={`flex-1 bg-transparent border-none text-xs font-mono text-stone-800 focus:outline-none min-w-0 ${
                     isSlugSynced ? "cursor-default text-stone-600" : "font-semibold text-amber-900"
                   }`}
                 />

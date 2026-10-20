@@ -70,27 +70,27 @@ export default function BlogsPage() {
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col font-sans">
       <Navbar brandName={settings.brandName} />
 
-      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-10 md:py-16">
+      <main className="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12 md:py-16">
         {/* Dynamic Grand Hero Title */}
-        <div className="text-center mb-10 md:mb-14">
+        <div className="text-center mb-8 sm:mb-12 md:mb-14 px-2">
           {settings.heroBadge && (
-            <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-xs font-bold tracking-wider uppercase mb-3">
+            <div className="inline-block px-3 py-1 rounded-full bg-amber-100 text-amber-900 text-[11px] sm:text-xs font-bold tracking-wider uppercase mb-3">
               {settings.heroBadge}
             </div>
           )}
-          <h1 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold text-stone-900 tracking-tight">
+          <h1 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-stone-900 tracking-tight leading-tight">
             {settings.heroTitle}
           </h1>
           {settings.heroDescription && (
-            <p className="mt-3.5 text-stone-600 text-sm md:text-base max-w-xl mx-auto leading-relaxed">
+            <p className="mt-3 text-stone-600 text-xs sm:text-sm md:text-base max-w-xl mx-auto leading-relaxed">
               {settings.heroDescription}
             </p>
           )}
         </div>
 
         {/* Filter and Search Controls Bar */}
-        <div className="flex flex-col sm:flex-row items-center justify-between gap-3 mb-8 pb-4 border-b border-stone-200/60">
-          <div className="text-xs font-semibold text-stone-500">
+        <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 mb-8 pb-4 border-b border-stone-200/60">
+          <div className="text-xs font-semibold text-stone-500 text-center sm:text-left">
             {posts.length > 0 ? (
               <span>Showing <strong className="text-stone-900">{posts.length}</strong> {posts.length === 1 ? "article" : "articles"}</span>
             ) : (
@@ -98,7 +98,7 @@ export default function BlogsPage() {
             )}
           </div>
 
-          <div className="flex items-center gap-3 w-full sm:w-auto">
+          <div className="flex flex-col sm:flex-row items-center gap-2.5 sm:gap-3 w-full sm:w-auto">
             {/* Search Box */}
             <div className="relative w-full sm:w-64">
               <input
@@ -124,7 +124,7 @@ export default function BlogsPage() {
               </button>
 
               {filterDropdownOpen && (
-                <div className="absolute right-0 mt-1.5 w-44 bg-white rounded-xl border border-stone-200 shadow-lg py-1.5 z-30 animate-in fade-in duration-100">
+                <div className="absolute right-0 mt-1.5 w-full sm:w-48 bg-white rounded-xl border border-stone-200 shadow-lg py-1.5 z-30 animate-in fade-in duration-100">
                   {CATEGORIES.map((cat) => (
                     <button
                       key={cat}
@@ -185,7 +185,7 @@ export default function BlogsPage() {
             </div>
           </div>
         ) : (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-7">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 md:gap-7">
             {posts.map((post, index) => {
               if (index === 5) {
                 return (

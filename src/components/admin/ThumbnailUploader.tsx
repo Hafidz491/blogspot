@@ -94,27 +94,27 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
             className="object-cover transition-transform duration-300 group-hover:scale-102"
             unoptimized
           />
-          <div className="absolute inset-0 bg-stone-900/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center gap-3 backdrop-blur-xs">
+          <div className="absolute inset-0 bg-stone-900/50 sm:bg-stone-900/40 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity flex items-center justify-center gap-2 sm:gap-3 backdrop-blur-xs p-2">
             <button
               type="button"
               onClick={() => fileInputRef.current?.click()}
-              className="px-4 py-2 rounded-xl bg-white/90 text-stone-900 font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-white transition"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-white/95 text-stone-900 font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-white transition"
             >
-              <RefreshCw className="w-3.5 h-3.5" />
-              Change Image
+              <RefreshCw className="w-3.5 h-3.5 shrink-0" />
+              <span>Change</span>
             </button>
             <button
               type="button"
               onClick={() => onChange("")}
-              className="px-4 py-2 rounded-xl bg-red-600/90 text-white font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-red-600 transition"
+              className="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-red-600/95 text-white font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-red-600 transition"
             >
-              <X className="w-3.5 h-3.5" />
-              Remove
+              <X className="w-3.5 h-3.5 shrink-0" />
+              <span>Remove</span>
             </button>
           </div>
-          <div className="absolute bottom-3 left-3 bg-stone-900/70 text-white text-[11px] font-medium px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5">
-            <ImageIcon className="w-3 h-3" />
-            <span>Thumbnail Ready</span>
+          <div className="absolute bottom-2 left-2 sm:bottom-3 sm:left-3 bg-stone-900/80 text-white text-[10px] sm:text-[11px] font-medium px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5 pointer-events-none">
+            <ImageIcon className="w-3 h-3 shrink-0" />
+            <span>Ready</span>
           </div>
         </div>
       ) : (
@@ -123,7 +123,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
           onDragOver={handleDragOver}
           onDragLeave={handleDragLeave}
           onDrop={handleDrop}
-          className={`relative border-2 border-dashed rounded-2xl p-8 flex flex-col items-center justify-center text-center transition-all duration-200 cursor-pointer ${
+          className={`relative border-2 border-dashed rounded-2xl p-5 sm:p-8 flex flex-col items-center justify-center text-center transition-all duration-200 cursor-pointer ${
             isDragging
               ? "border-amber-700 bg-amber-50/50 scale-[1.01]"
               : "border-stone-300 bg-stone-50/70 hover:bg-stone-100/80 hover:border-stone-400"

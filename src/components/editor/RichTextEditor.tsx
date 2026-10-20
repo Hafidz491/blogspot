@@ -441,14 +441,14 @@ export default function RichTextEditor({
 
       {/* Pop-up Modal for Link Input */}
       {linkModalOpen && (
-        <div className="bg-stone-50 border-b border-stone-200 p-3 flex items-center gap-2 text-sm animate-in fade-in duration-150">
-          <LinkIcon className="w-4 h-4 text-stone-400" />
+        <div className="bg-stone-50 border-b border-stone-200 p-2.5 sm:p-3 flex flex-wrap items-center gap-2 text-sm animate-in fade-in duration-150">
+          <LinkIcon className="w-4 h-4 text-stone-400 shrink-0" />
           <input
             type="url"
             value={linkUrl}
             onChange={(e) => setLinkUrl(e.target.value)}
             placeholder="https://example.com/source"
-            className="flex-1 px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
+            className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-stone-400"
             autoFocus
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -457,30 +457,32 @@ export default function RichTextEditor({
               }
             }}
           />
-          <button
-            type="button"
-            onClick={setLink}
-            className="px-3 py-1.5 rounded-lg bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800"
-          >
-            Save Link
-          </button>
-          <button
-            type="button"
-            onClick={() => setLinkModalOpen(false)}
-            className="px-2.5 py-1.5 rounded-lg text-stone-600 hover:bg-stone-200 text-xs"
-          >
-            Cancel
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={setLink}
+              className="px-3 py-1.5 rounded-lg bg-stone-900 text-white text-xs font-semibold hover:bg-stone-800"
+            >
+              Save Link
+            </button>
+            <button
+              type="button"
+              onClick={() => setLinkModalOpen(false)}
+              className="px-2.5 py-1.5 rounded-lg text-stone-600 hover:bg-stone-200 text-xs"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
       {/* Pop-up Modal for Media URL (Image URL or YouTube Video) */}
       {mediaModalType && (
-        <div className="bg-amber-50/70 border-b border-amber-200/80 p-3 flex items-center gap-2 text-sm animate-in fade-in duration-150">
+        <div className="bg-amber-50/70 border-b border-amber-200/80 p-2.5 sm:p-3 flex flex-wrap items-center gap-2 text-sm animate-in fade-in duration-150">
           {mediaModalType === "image-url" ? (
-            <ImageIcon className="w-4 h-4 text-amber-700" />
+            <ImageIcon className="w-4 h-4 text-amber-700 shrink-0" />
           ) : (
-            <Video className="w-4 h-4 text-red-600" />
+            <Video className="w-4 h-4 text-red-600 shrink-0" />
           )}
           <input
             type="url"
@@ -489,9 +491,9 @@ export default function RichTextEditor({
             placeholder={
               mediaModalType === "image-url"
                 ? "Enter image URL (https://...jpg, png, webp)"
-                : "Enter YouTube Video URL (e.g., https://www.youtube.com/watch?v=...)"
+                : "Enter YouTube Video URL (e.g., https://...)"
             }
-            className="flex-1 px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
+            className="flex-1 min-w-[160px] px-3 py-1.5 rounded-lg border border-stone-300 bg-white text-xs sm:text-sm focus:outline-none focus:ring-2 focus:ring-amber-500"
             autoFocus
             onKeyDown={(e) => {
               if (e.key === "Enter") {
@@ -500,34 +502,36 @@ export default function RichTextEditor({
               }
             }}
           />
-          <button
-            type="button"
-            onClick={handleInsertMediaUrl}
-            className="px-3.5 py-1.5 rounded-lg bg-amber-800 text-white text-xs font-semibold hover:bg-amber-900"
-          >
-            Insert {mediaModalType === "image-url" ? "Image" : "Video"}
-          </button>
-          <button
-            type="button"
-            onClick={() => {
-              setMediaModalType(null);
-              setMediaInputUrl("");
-            }}
-            className="px-2.5 py-1.5 rounded-lg text-stone-600 hover:bg-stone-200 text-xs"
-          >
-            Cancel
-          </button>
+          <div className="flex items-center gap-1.5">
+            <button
+              type="button"
+              onClick={handleInsertMediaUrl}
+              className="px-3.5 py-1.5 rounded-lg bg-amber-800 text-white text-xs font-semibold hover:bg-amber-900 whitespace-nowrap"
+            >
+              Insert {mediaModalType === "image-url" ? "Image" : "Video"}
+            </button>
+            <button
+              type="button"
+              onClick={() => {
+                setMediaModalType(null);
+                setMediaInputUrl("");
+              }}
+              className="px-2.5 py-1.5 rounded-lg text-stone-600 hover:bg-stone-200 text-xs"
+            >
+              Cancel
+            </button>
+          </div>
         </div>
       )}
 
       {/* Editor Content Area */}
-      <div className="p-6 md:p-8 flex-1 min-h-[360px] cursor-text">
+      <div className="p-4 sm:p-6 md:p-8 flex-1 min-h-[280px] sm:min-h-[360px] cursor-text">
         <EditorContent editor={editor} />
       </div>
 
       {/* Editor Footer / Stats Bar */}
-      <div className="bg-[#FAF8F5] border-t border-stone-200/90 px-4 py-2 flex items-center justify-between text-xs text-stone-500">
-        <div className="flex items-center gap-4">
+      <div className="bg-[#FAF8F5] border-t border-stone-200/90 px-3 sm:px-4 py-2 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-1 text-xs text-stone-500">
+        <div className="flex flex-wrap items-center gap-3 sm:gap-4">
           <span>
             Words: <strong className="text-stone-700">{wordCount}</strong>
           </span>
@@ -537,11 +541,11 @@ export default function RichTextEditor({
           {isUploading && (
             <span className="flex items-center text-amber-700 font-medium animate-pulse">
               <Loader2 className="w-3.5 h-3.5 animate-spin mr-1" />
-              Uploading media to Supabase Storage...
+              Uploading media...
             </span>
           )}
         </div>
-        <div className="text-[11px] text-stone-400">
+        <div className="text-[10px] sm:text-[11px] text-stone-400">
           Markdown / HTML Supported • TipTap Rich Text
         </div>
       </div>

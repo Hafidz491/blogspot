@@ -11,12 +11,12 @@ export default function Footer({
   const s = { ...DEFAULT_SITE_SETTINGS, ...settings };
 
   return (
-    <footer className="bg-[#FAF8F5] border-t border-stone-200/80 pt-16 pb-12 mt-20">
+    <footer className="bg-[#FAF8F5] border-t border-stone-200/80 pt-10 sm:pt-16 pb-8 sm:pb-12 mt-12 sm:mt-20">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-10 pb-12 border-b border-stone-200">
+        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-8 md:gap-10 pb-8 sm:pb-12 border-b border-stone-200">
           {/* Brand Info */}
-          <div className="md:col-span-2 space-y-4">
-            <h3 className="font-heading text-2xl font-bold text-stone-900 tracking-tight">
+          <div className="col-span-1 sm:col-span-2 space-y-3 sm:space-y-4">
+            <h3 className="font-heading text-xl sm:text-2xl font-bold text-stone-900 tracking-tight">
               {s.footerAboutTitle}
             </h3>
             <p className="text-sm text-stone-600 max-w-sm leading-relaxed">
@@ -113,9 +113,9 @@ export default function Footer({
         </div>
 
         {/* Bottom Credits */}
-        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-4">
+        <div className="pt-6 sm:pt-8 flex flex-col sm:flex-row items-center justify-between text-xs text-stone-500 gap-3 text-center sm:text-left">
           <p>{s.copyrightText}</p>
-          <div className="flex items-center gap-6">
+          <div className="flex items-center gap-4 text-[11px] sm:text-xs">
             <span>Built with Next.js App Router, Tailwind CSS & Supabase</span>
           </div>
         </div>

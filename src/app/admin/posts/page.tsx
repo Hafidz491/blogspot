@@ -95,7 +95,7 @@ export default function AdminPostsPage() {
 
         <Link
           href="/admin/posts/create"
-          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs md:text-sm font-bold transition shadow-sm self-start sm:self-auto"
+          className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs md:text-sm font-bold transition shadow-sm w-full sm:w-auto"
         >
           <Plus className="w-4 h-4 text-stone-200" />
           <span>Create New Post</span>
@@ -104,31 +104,31 @@ export default function AdminPostsPage() {
 
       {/* Metrics / Statistics Cards */}
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
             Total Posts
           </span>
-          <div className="text-3xl font-heading font-extrabold text-stone-900 mt-2">
+          <div className="text-2xl sm:text-3xl font-heading font-extrabold text-stone-900 mt-2">
             {totalCount}
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
             Published
           </span>
-          <div className="text-3xl font-heading font-extrabold text-emerald-900 mt-2">
+          <div className="text-2xl sm:text-3xl font-heading font-extrabold text-emerald-900 mt-2">
             {publishedCount}
           </div>
         </div>
 
-        <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
+        <div className="p-4 sm:p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-amber-400" />
             Drafts
           </span>
-          <div className="text-3xl font-heading font-extrabold text-amber-900 mt-2">
+          <div className="text-2xl sm:text-3xl font-heading font-extrabold text-amber-900 mt-2">
             {draftCount}
           </div>
         </div>
@@ -149,7 +149,7 @@ export default function AdminPostsPage() {
         </form>
 
         {/* Status Filter Tabs */}
-        <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1 rounded-xl border border-stone-200 w-full md:w-auto overflow-x-auto">
+        <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1 rounded-xl border border-stone-200 w-full md:w-auto">
           {[
             { id: "all", label: "All Statuses" },
             { id: "published", label: "Published" },
@@ -158,7 +158,7 @@ export default function AdminPostsPage() {
             <button
               key={tab.id}
               onClick={() => setStatusFilter(tab.id)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
+              className={`flex-1 sm:flex-initial text-center px-3 py-1.5 rounded-lg text-xs font-semibold transition ${
                 statusFilter === tab.id
                   ? "bg-white text-stone-900 shadow-2xs font-bold"
                   : "text-stone-500 hover:text-stone-900"

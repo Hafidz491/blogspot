@@ -109,7 +109,7 @@ export default function AdminSetupPage() {
         </div>
 
         {/* Setup Card */}
-        <div className="bg-white rounded-3xl p-8 border border-stone-200 shadow-sm">
+        <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-stone-200 shadow-sm">
           {errorMessage && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium flex items-start gap-2">
               <AlertCircle className="w-4 h-4 shrink-0 mt-0.5" />

@@ -96,21 +96,21 @@ export default function AdminSettingsPage() {
             <Sliders className="w-3.5 h-3.5 text-amber-700" />
             <span>Content Customization</span>
           </div>
-          <h1 className="text-3xl font-heading font-extrabold text-stone-900 tracking-tight">
+          <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-stone-900 tracking-tight">
             Website Content Settings
           </h1>
-          <p className="text-sm text-stone-500 mt-1">
+          <p className="text-xs sm:text-sm text-stone-500 mt-1">
             Customize hero section, footer, newsletter card, and brand identity displayed live on the public website.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 w-full sm:w-auto">
           <Link
             href="/blogs"
             target="_blank"
-            className="cursor-pointer px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition shadow-2xs"
+            className="flex-1 sm:flex-initial cursor-pointer px-3.5 sm:px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center justify-center gap-1.5 transition shadow-2xs"
           >
-            <span>View Public Site</span>
+            <span>View Public</span>
             <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
           </Link>
 
@@ -118,7 +118,7 @@ export default function AdminSettingsPage() {
             type="button"
             onClick={handleSave}
             disabled={saving}
-            className="cursor-pointer px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold flex items-center gap-2 transition shadow-sm disabled:opacity-50"
+            className="flex-1 sm:flex-initial cursor-pointer px-4 sm:px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm disabled:opacity-50"
           >
             {saving ? (
               <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
@@ -146,12 +146,12 @@ export default function AdminSettingsPage() {
       )}
 
       {/* Navigation Tabs */}
-      <div className="flex items-center gap-2 border-b border-stone-200 pb-2 overflow-x-auto">
+      <div className="flex items-center gap-2 border-b border-stone-200 pb-2 overflow-x-auto -mx-4 px-4 sm:mx-0 sm:px-0">
         {[
-          { id: "hero", label: "Hero Section (/blogs)", icon: Sparkles },
-          { id: "branding", label: "Branding & Navigation", icon: Type },
+          { id: "hero", label: "Hero Section", icon: Sparkles },
+          { id: "branding", label: "Branding", icon: Type },
           { id: "newsletter", label: "Newsletter Card", icon: Mail },
-          { id: "footer", label: "Footer & Social Links", icon: Layers },
+          { id: "footer", label: "Footer & Social", icon: Layers },
         ].map((tab) => {
           const Icon = tab.icon;
           return (
@@ -159,13 +159,13 @@ export default function AdminSettingsPage() {
               key={tab.id}
               type="button"
               onClick={() => setActiveTab(tab.id as typeof activeTab)}
-              className={`cursor-pointer px-4 py-2.5 rounded-xl text-xs font-bold flex items-center gap-2 transition whitespace-nowrap ${
+              className={`cursor-pointer px-3.5 sm:px-4 py-2 sm:py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 sm:gap-2 transition shrink-0 ${
                 activeTab === tab.id
                   ? "bg-stone-900 text-white shadow-xs"
                   : "text-stone-600 hover:bg-stone-100 hover:text-stone-900"
               }`}
             >
-              <Icon className="w-4 h-4" />
+              <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               <span>{tab.label}</span>
             </button>
           );
