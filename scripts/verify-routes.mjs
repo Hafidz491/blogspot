@@ -16,6 +16,8 @@ async function verify() {
       if (r.url.includes("/blogs") && !r.url.includes("letter")) {
         console.log(`  -> Contains "Blog's": ${text.includes("Blog's")}`);
         console.log(`  -> Contains Newsletter Card text: ${text.includes("Be the")}`);
+        const iconMatches = text.match(/<link[^>]+rel="[^"]*icon[^"]*"[^>]*>/gi);
+        console.log("  -> Icon tags in HTML:", iconMatches);
       }
       if (r.url.includes("create")) {
         console.log(`  -> Contains "New Post": ${text.includes("New Post")}`);
