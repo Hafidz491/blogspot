@@ -18,7 +18,7 @@ async function verify() {
         console.log(`  -> Contains Newsletter Card text: ${text.includes("Be the")}`);
       }
       if (r.url.includes("create")) {
-        console.log(`  -> Contains "Buat Artikel Baru": ${text.includes("Buat Artikel Baru")}`);
+        console.log(`  -> Contains "New Post": ${text.includes("New Post")}`);
       }
     } catch (e) {
       console.error(`Error fetching ${r.name}:`, e.message);

@@ -39,22 +39,22 @@ export default function Footer({
           {/* Quick Links */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-              Navigasi
+              Navigation
             </h4>
             <ul className="space-y-2 text-sm text-stone-600">
               <li>
                 <Link href="/blogs" className="hover:text-stone-900 transition font-medium">
-                  Semua Artikel
+                  All Articles
                 </Link>
               </li>
               <li>
                 <a href="#newsletter" className="hover:text-stone-900 transition">
-                  Berlangganan Newsletter
+                  Newsletter
                 </a>
               </li>
               <li>
                 <a href="#newsletter" className="hover:text-stone-900 transition">
-                  Tentang Kami
+                  About Us
                 </a>
               </li>
             </ul>
@@ -63,7 +63,7 @@ export default function Footer({
           {/* Categories & Socials */}
           <div className="space-y-3">
             <h4 className="text-xs font-semibold uppercase tracking-wider text-stone-400">
-              Sosial Media
+              Social Media
             </h4>
             <ul className="space-y-2 text-sm text-stone-600">
               {s.socialTwitter && (
@@ -106,7 +106,7 @@ export default function Footer({
                 </li>
               )}
               {!s.socialTwitter && !s.socialLinkedIn && !s.socialInstagram && (
-                <li className="text-xs text-stone-400">Belum ada akun sosial</li>
+                <li className="text-xs text-stone-400">No social links added yet</li>
               )}
             </ul>
           </div>

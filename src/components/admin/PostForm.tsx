@@ -26,7 +26,7 @@ const RichTextEditor = dynamic(
     ssr: false,
     loading: () => (
       <div className="w-full h-80 rounded-2xl border border-stone-200 bg-white/70 animate-pulse flex items-center justify-center text-stone-400">
-        <span>Memuat Rich Text Editor...</span>
+        <span>Loading Rich Text Editor...</span>
       </div>
     ),
   }
@@ -57,7 +57,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
     excerpt: initialData?.excerpt || "",
     category: initialData?.category || "Tips",
     thumbnail_url: initialData?.thumbnail_url || "",
-    content: initialData?.content || "<p>Mulai tulis konten artikel inspiratif Anda di sini...</p>",
+    content: initialData?.content || "<p>Start writing your thoughtful, inspiring content here...</p>",
     status: initialData?.status || "published",
     author_name: initialData?.author_name || "Admin Editor",
   });
@@ -94,12 +94,12 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
     e.preventDefault();
 
     if (!formData.title.trim()) {
-      setErrorMessage("Judul artikel tidak boleh kosong.");
+      setErrorMessage("Article title cannot be empty.");
       return;
     }
 
     if (!formData.slug.trim()) {
-      setErrorMessage("Slug URL artikel tidak boleh kosong.");
+      setErrorMessage("Article URL slug cannot be empty.");
       return;
     }
 
@@ -117,19 +117,19 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
       if (isEdit && initialData?.id) {
         const { error } = await updatePost(initialData.id, payload);
         if (error) {
-          setErrorMessage("Gagal memperbarui artikel: " + error);
+          setErrorMessage("Failed to update post: " + error);
           setIsSubmitting(false);
           return;
         }
-        setSuccessMessage("Artikel berhasil diperbarui!");
+        setSuccessMessage("Post updated successfully!");
       } else {
         const { error } = await createPost(payload);
         if (error) {
-          setErrorMessage("Gagal menyimpan artikel: " + error);
+          setErrorMessage("Failed to save post: " + error);
           setIsSubmitting(false);
           return;
         }
-        setSuccessMessage("Artikel baru berhasil dibuat!");
+        setSuccessMessage("New post created successfully!");
       }
 
       setTimeout(() => {
@@ -138,7 +138,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
       }, 1000);
     } catch (err: unknown) {
       console.error(err);
-      setErrorMessage("Terjadi kesalahan saat memproses data artikel.");
+      setErrorMessage("An unexpected error occurred while saving post data.");
     } finally {
       setIsSubmitting(false);
     }
@@ -152,16 +152,16 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
           <Link
             href="/admin/posts"
             className="p-2 rounded-xl bg-white border border-stone-200 text-stone-600 hover:text-stone-900 hover:border-stone-300 transition shadow-2xs"
-            title="Kembali ke Daftar Post"
+            title="Back to Posts List"
           >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
             <h1 className="text-2xl font-heading font-extrabold text-stone-900 tracking-tight">
-              {isEdit ? "Edit Artikel Blog" : "Buat Artikel Baru"}
+              {isEdit ? "Edit Blog Post" : "Create New Post"}
             </h1>
             <p className="text-xs text-stone-500 mt-0.5">
-              Kelola konten, media, metadata, dan status publikasi tulisan
+              Manage content, media, metadata, and publication status
             </p>
           </div>
         </div>
@@ -176,7 +176,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             className="px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 font-medium text-xs md:text-sm flex items-center gap-2 transition disabled:opacity-50 shadow-2xs"
           >
             <Save className="w-4 h-4 text-stone-500" />
-            <span>Simpan sebagai Draft</span>
+            <span>Save as Draft</span>
           </button>
 
           {/* Publish Button */}
@@ -191,7 +191,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             ) : (
               <Globe className="w-4 h-4 text-emerald-400" />
             )}
-            <span>{isEdit ? "Perbarui & Terbitkan" : "Terbitkan Artikel"}</span>
+            <span>{isEdit ? "Update & Publish" : "Publish Post"}</span>
           </button>
         </div>
       </div>
@@ -200,7 +200,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
       {successMessage && (
         <div className="p-4 rounded-xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-sm flex items-center gap-2.5 animate-in fade-in">
           <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
-          <span>{successMessage} Mengalihkan ke halaman dashboard...</span>
+          <span>{successMessage} Redirecting to dashboard...</span>
         </div>
       )}
 
@@ -218,14 +218,14 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
           <div className="bg-white p-6 rounded-2xl border border-stone-200 shadow-xs space-y-4">
             <div>
               <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wider mb-2">
-                Judul Artikel
+                Post Title
               </label>
               <input
                 type="text"
                 required
                 value={formData.title}
                 onChange={handleTitleChange}
-                placeholder="Contoh: Strategi Efektif Mengembangkan Komunitas..."
+                placeholder="e.g. Effective Strategies to Grow Your Nonprofit Community..."
                 className="w-full text-xl md:text-2xl font-heading font-bold text-stone-900 placeholder:text-stone-300 border-0 border-b border-stone-200 pb-3 focus:outline-none focus:border-stone-900 transition bg-transparent"
               />
             </div>
@@ -245,12 +245,12 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                   {isSlugSynced ? (
                     <>
                       <Lock className="w-3 h-3 text-emerald-600" />
-                      <span>Sinkron otomatis aktif (Klik untuk edit manual)</span>
+                      <span>Auto-sync active (Click to edit manually)</span>
                     </>
                   ) : (
                     <>
                       <Unlock className="w-3 h-3 text-amber-600" />
-                      <span>Mode manual (Klik untuk auto-sync kembali)</span>
+                      <span>Manual mode (Click to re-sync automatically)</span>
                     </>
                   )}
                 </button>
@@ -268,7 +268,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                       slug: generateSlug(e.target.value),
                     }))
                   }
-                  placeholder="slug-url-artikel"
+                  placeholder="post-url-slug"
                   className={`flex-1 bg-transparent border-none text-xs font-mono text-stone-800 focus:outline-none ${
                     isSlugSynced ? "cursor-default text-stone-600" : "font-semibold text-amber-900"
                   }`}
@@ -279,13 +279,13 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             {/* Excerpt */}
             <div className="pt-2">
               <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wider mb-1.5">
-                Ringkasan Singkat (Excerpt)
+                Short Summary (Excerpt)
               </label>
               <textarea
                 rows={2}
                 value={formData.excerpt}
                 onChange={(e) => setFormData((prev) => ({ ...prev, excerpt: e.target.value }))}
-                placeholder="Tulis ringkasan singkat artikel yang menarik untuk ditampilkan di card dan hasil pencarian Google..."
+                placeholder="Write a concise excerpt for article cards and Google search results..."
                 className="w-full text-xs md:text-sm text-stone-700 p-3 rounded-xl border border-stone-200 bg-[#FAF8F5] focus:outline-none focus:ring-2 focus:ring-stone-400 transition"
               />
             </div>
@@ -295,10 +295,10 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
           <div className="space-y-2">
             <div className="flex items-center justify-between">
               <label className="block text-xs font-semibold text-stone-600 uppercase tracking-wider">
-                Isi Konten Artikel (Rich Text Editor)
+                Article Content (Rich Text Editor)
               </label>
               <span className="text-[11px] text-stone-400">
-                Mendukung Gambar, Format Teks & Embed YouTube
+                Supports Images, Formatting & YouTube Embeds
               </span>
             </div>
             <RichTextEditor
@@ -314,9 +314,9 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
           <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-3">
             <div className="flex items-center justify-between">
               <h3 className="text-xs font-semibold text-stone-700 uppercase tracking-wider">
-                Thumbnail Utama
+                Featured Thumbnail
               </h3>
-              <span className="text-[11px] text-stone-400">Rasio 16:9 / 4:3</span>
+              <span className="text-[11px] text-stone-400">Ratio 16:9 / 4:3</span>
             </div>
             <ThumbnailUploader
               value={formData.thumbnail_url || ""}
@@ -327,13 +327,13 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
           {/* Publication Settings Card */}
           <div className="bg-white p-5 rounded-2xl border border-stone-200 shadow-xs space-y-4">
             <h3 className="text-xs font-semibold text-stone-700 uppercase tracking-wider border-b border-stone-100 pb-2">
-              Pengaturan Publikasi
+              Publication Settings
             </h3>
 
             {/* Status Selector */}
             <div>
               <label className="block text-xs font-medium text-stone-600 mb-1.5">
-                Status Postingan
+                Post Status
               </label>
               <div className="grid grid-cols-2 gap-2">
                 <button
@@ -367,7 +367,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             {/* Category Selector */}
             <div>
               <label className="block text-xs font-medium text-stone-600 mb-1.5">
-                Kategori Artikel
+                Category
               </label>
               <select
                 value={formData.category}
@@ -385,7 +385,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             {/* Author */}
             <div>
               <label className="block text-xs font-medium text-stone-600 mb-1.5">
-                Nama Penulis / Redaksi
+                Author / Editorial Team
               </label>
               <input
                 type="text"
@@ -393,7 +393,7 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
                 onChange={(e) =>
                   setFormData((prev) => ({ ...prev, author_name: e.target.value }))
                 }
-                placeholder="Contoh: Editorial Team"
+                placeholder="e.g. Editorial Team"
                 className="w-full text-xs text-stone-800 p-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] focus:outline-none focus:ring-2 focus:ring-stone-400 transition"
               />
             </div>
@@ -404,14 +404,14 @@ export default function PostForm({ initialData, isEdit = false }: PostFormProps)
             <div className="p-4 rounded-2xl bg-amber-50/60 border border-amber-200/80 flex items-center justify-between text-xs">
               <div className="flex items-center gap-2 text-stone-700">
                 <Eye className="w-4 h-4 text-stone-500" />
-                <span>Lihat Tampilan Publik</span>
+                <span>View Public Post</span>
               </div>
               <Link
                 href={`/blogs/${initialData.slug}`}
                 target="_blank"
                 className="font-medium text-amber-800 hover:text-amber-900 underline underline-offset-2"
               >
-                Buka Artikel ↗
+                Open Post ↗
               </Link>
             </div>
           )}

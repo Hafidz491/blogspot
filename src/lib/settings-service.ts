@@ -52,7 +52,7 @@ export async function updateSiteSettings(
     localSettingsCache = merged;
     return { success: true, data: merged, error: null };
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Kesalahan server";
+    const message = err instanceof Error ? err.message : "Server error occurred";
     return { success: false, data: localSettingsCache, error: message };
   }
 }

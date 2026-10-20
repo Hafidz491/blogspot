@@ -65,7 +65,7 @@ export default function AdminPostsPage() {
       }
     } catch (err) {
       console.error(err);
-      alert("Gagal menghapus postingan");
+      alert("Failed to delete post.");
     } finally {
       setIsDeleting(false);
     }
@@ -83,13 +83,13 @@ export default function AdminPostsPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full mb-2">
             <Sparkles className="w-3.5 h-3.5 text-amber-700" />
-            <span>Dashboard Admin</span>
+            <span>Admin Dashboard</span>
           </div>
           <h1 className="text-3xl font-heading font-extrabold text-stone-900 tracking-tight">
-            Manajemen Artikel Blog
+            Blog Post Management
           </h1>
           <p className="text-sm text-stone-500 mt-1">
-            Kelola seluruh artikel, pantau status publikasi, dan tinjau konten secara terpusat.
+            Manage all articles, monitor publication statuses, and review content in one place.
           </p>
         </div>
 
@@ -98,7 +98,7 @@ export default function AdminPostsPage() {
           className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs md:text-sm font-bold transition shadow-sm self-start sm:self-auto"
         >
           <Plus className="w-4 h-4 text-stone-200" />
-          <span>Tulis Artikel Baru</span>
+          <span>Create New Post</span>
         </Link>
       </div>
 
@@ -106,7 +106,7 @@ export default function AdminPostsPage() {
       <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
         <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-stone-400 uppercase tracking-wider">
-            Total Artikel
+            Total Posts
           </span>
           <div className="text-3xl font-heading font-extrabold text-stone-900 mt-2">
             {totalCount}
@@ -116,7 +116,7 @@ export default function AdminPostsPage() {
         <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-emerald-600 uppercase tracking-wider flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-emerald-500" />
-            Terbit (Published)
+            Published
           </span>
           <div className="text-3xl font-heading font-extrabold text-emerald-900 mt-2">
             {publishedCount}
@@ -126,7 +126,7 @@ export default function AdminPostsPage() {
         <div className="p-5 rounded-2xl bg-white border border-stone-200 shadow-2xs">
           <span className="text-xs font-bold text-amber-600 uppercase tracking-wider flex items-center gap-1.5">
             <span className="w-2 h-2 rounded-full bg-amber-400" />
-            Konsep (Draft)
+            Drafts
           </span>
           <div className="text-3xl font-heading font-extrabold text-amber-900 mt-2">
             {draftCount}
@@ -143,7 +143,7 @@ export default function AdminPostsPage() {
             type="text"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            placeholder="Cari berdasarkan judul atau isi..."
+            placeholder="Search by title or content..."
             className="w-full pl-10 pr-4 py-2 rounded-xl bg-[#FAF8F5] border border-stone-200 text-xs text-stone-800 placeholder:text-stone-400 focus:outline-none focus:ring-2 focus:ring-stone-400 transition"
           />
         </form>
@@ -151,7 +151,7 @@ export default function AdminPostsPage() {
         {/* Status Filter Tabs */}
         <div className="flex items-center gap-1.5 bg-[#FAF8F5] p-1 rounded-xl border border-stone-200 w-full md:w-auto overflow-x-auto">
           {[
-            { id: "all", label: "Semua Status" },
+            { id: "all", label: "All Statuses" },
             { id: "published", label: "Published" },
             { id: "draft", label: "Draft" },
           ].map((tab) => (
@@ -175,7 +175,7 @@ export default function AdminPostsPage() {
         {loading ? (
           <div className="py-20 flex flex-col items-center justify-center text-stone-400">
             <Loader2 className="w-8 h-8 animate-spin text-stone-500 mb-3" />
-            <p className="text-sm">Memuat data artikel...</p>
+            <p className="text-sm">Loading posts data...</p>
           </div>
         ) : posts.length === 0 ? (
           <div className="py-20 text-center px-4">
@@ -183,17 +183,17 @@ export default function AdminPostsPage() {
               <FileText className="w-8 h-8" />
             </div>
             <h3 className="text-lg font-heading font-bold text-stone-800">
-              Belum Ada Artikel yang Tersedia
+              No Posts Available
             </h3>
             <p className="text-xs text-stone-500 mt-1.5 max-w-sm mx-auto leading-relaxed">
-              Data dummy telah dikosongkan. Mulai buat artikel baru Anda untuk ditampilkan di halaman publik blog.
+              No articles have been created yet. Start writing your first post to display it on the public blog.
             </p>
             <Link
               href="/admin/posts/create"
               className="mt-5 inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-stone-900 text-white text-xs font-bold hover:bg-black transition shadow-xs"
             >
               <Plus className="w-4 h-4" />
-              <span>Tulis Artikel Pertama</span>
+              <span>Create First Post</span>
             </Link>
           </div>
         ) : (
@@ -202,19 +202,19 @@ export default function AdminPostsPage() {
               <thead className="bg-[#FAF8F5] border-b border-stone-200/80 text-[11px] font-bold text-stone-500 uppercase tracking-wider">
                 <tr>
                   <th scope="col" className="py-3.5 px-5">
-                    Artikel & Thumbnail
+                    Post & Thumbnail
                   </th>
                   <th scope="col" className="py-3.5 px-4 hidden md:table-cell">
-                    Kategori
+                    Category
                   </th>
                   <th scope="col" className="py-3.5 px-4">
                     Status
                   </th>
                   <th scope="col" className="py-3.5 px-4 hidden lg:table-cell">
-                    Tanggal Terbit
+                    Published Date
                   </th>
                   <th scope="col" className="py-3.5 px-5 text-right">
-                    Aksi
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -280,7 +280,7 @@ export default function AdminPostsPage() {
 
                     {/* Published Date */}
                     <td className="py-4 px-4 hidden lg:table-cell text-stone-500">
-                      {post.published_at ? formatDate(post.published_at) : "Belum diterbitkan"}
+                      {post.published_at ? formatDate(post.published_at) : "Not published"}
                     </td>
 
                     {/* Actions: Edit, Delete, View */}
@@ -292,7 +292,7 @@ export default function AdminPostsPage() {
                             href={`/blogs/${post.slug}`}
                             target="_blank"
                             className="p-1.5 rounded-lg hover:bg-stone-200/70 text-stone-500 hover:text-stone-800 transition"
-                            title="Tinjau di Halaman Publik"
+                            title="Preview on Public Site"
                           >
                             <ExternalLink className="w-4 h-4" />
                           </Link>
@@ -302,7 +302,7 @@ export default function AdminPostsPage() {
                         <Link
                           href={`/admin/posts/${post.id}/edit`}
                           className="p-1.5 rounded-lg hover:bg-stone-200/70 text-stone-600 hover:text-stone-900 transition"
-                          title="Edit Artikel"
+                          title="Edit Post"
                         >
                           <Edit3 className="w-4 h-4" />
                         </Link>
@@ -312,7 +312,7 @@ export default function AdminPostsPage() {
                           type="button"
                           onClick={() => setDeleteTarget(post)}
                           className="p-1.5 rounded-lg hover:bg-red-50 text-stone-400 hover:text-red-600 transition"
-                          title="Hapus Artikel"
+                          title="Delete Post"
                         >
                           <Trash2 className="w-4 h-4" />
                         </button>
@@ -336,12 +336,12 @@ export default function AdminPostsPage() {
 
             <div>
               <h3 className="text-lg font-heading font-bold text-stone-900">
-                Hapus Artikel Ini?
+                Delete This Post?
               </h3>
               <p className="text-xs text-stone-500 mt-1 leading-relaxed">
-                Apakah Anda yakin ingin menghapus artikel{" "}
+                Are you sure you want to delete{" "}
                 <strong className="text-stone-800">&quot;{deleteTarget.title}&quot;</strong>?
-                Tindakan ini tidak dapat dibatalkan.
+                This action cannot be undone.
               </p>
             </div>
 
@@ -352,7 +352,7 @@ export default function AdminPostsPage() {
                 onClick={() => setDeleteTarget(null)}
                 className="px-4 py-2 rounded-xl border border-stone-300 text-stone-700 text-xs font-semibold hover:bg-stone-50 transition"
               >
-                Batal
+                Cancel
               </button>
               <button
                 type="button"
@@ -361,7 +361,7 @@ export default function AdminPostsPage() {
                 className="px-4 py-2 rounded-xl bg-red-600 text-white text-xs font-bold hover:bg-red-700 transition flex items-center gap-1.5"
               >
                 {isDeleting && <Loader2 className="w-3.5 h-3.5 animate-spin" />}
-                <span>Hapus Sekarang</span>
+                <span>Delete Now</span>
               </button>
             </div>
           </div>

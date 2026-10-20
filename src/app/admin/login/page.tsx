@@ -44,7 +44,7 @@ export default function AdminLoginPage() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setErrorMessage(data.error || "Username atau password salah.");
+        setErrorMessage(data.error || "Invalid username or password.");
         setLoading(false);
         return;
       }
@@ -54,7 +54,7 @@ export default function AdminLoginPage() {
       router.refresh();
     } catch (err) {
       console.error(err);
-      setErrorMessage("Gagal terhubung ke server. Periksa koneksi Anda.");
+      setErrorMessage("Failed to connect to server. Please check your connection.");
       setLoading(false);
     }
   };
@@ -76,7 +76,7 @@ export default function AdminLoginPage() {
             Admin Portal
           </h1>
           <p className="text-xs md:text-sm text-stone-500 mt-1.5">
-            Masuk untuk mengelola artikel, publikasi, dan media blog
+            Sign in to manage articles, publications, and site content
           </p>
         </div>
 
@@ -92,7 +92,7 @@ export default function AdminLoginPage() {
             {/* Username Input */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                Username Admin
+                Admin Username
               </label>
               <div className="relative">
                 <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -101,7 +101,7 @@ export default function AdminLoginPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Masukkan username Anda"
+                  placeholder="Enter your username"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                   autoComplete="username"
                 />
@@ -148,11 +148,11 @@ export default function AdminLoginPage() {
               {loading ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
-                  <span>Memverifikasi Akun...</span>
+                  <span>Verifying Credentials...</span>
                 </>
               ) : (
                 <>
-                  <span>Masuk ke Dashboard</span>
+                  <span>Sign In to Dashboard</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -162,13 +162,13 @@ export default function AdminLoginPage() {
           {/* First Time Setup Helper (Only shown when 0 admin exists) */}
           {showSetupPrompt && (
             <div className="mt-5 p-3.5 bg-amber-50 rounded-2xl border border-amber-200/80 text-center text-xs">
-              <p className="text-amber-900 font-medium">Belum memiliki akun admin di database?</p>
+              <p className="text-amber-900 font-medium">No admin account found in the database yet?</p>
               <Link
                 href="/admin/setup"
                 className="inline-flex items-center gap-1 font-bold text-amber-950 underline underline-offset-2 mt-1 hover:text-amber-800 transition"
               >
                 <UserPlus className="w-3.5 h-3.5" />
-                <span>Setup Akun Admin Pertama Anda Di Sini</span>
+                <span>Set Up Your First Admin Account Here</span>
               </Link>
             </div>
           )}
@@ -180,7 +180,7 @@ export default function AdminLoginPage() {
             href="/blogs"
             className="text-xs font-medium text-stone-500 hover:text-stone-900 transition underline underline-offset-4"
           >
-            ← Kembali ke Halaman Utama Blog
+            ← Back to Blog Home
           </Link>
         </div>
       </div>

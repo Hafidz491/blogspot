@@ -35,7 +35,7 @@ async function main() {
   const { projectRef, dbPassword } = getEnvConfig();
 
   if (!dbPassword) {
-    console.error("❌ SUPABASE_DB_PASSWORD tidak ditemukan di .env.local atau environment variables!");
+    console.error("❌ SUPABASE_DB_PASSWORD not found in .env.local or environment variables!");
     process.exit(1);
   }
 

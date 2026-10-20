@@ -119,7 +119,7 @@ export async function authenticateAdmin(
   const password = passwordInput.trim();
 
   if (!username || !password) {
-    return { success: false, error: "Username dan password wajib diisi." };
+    return { success: false, error: "Username and password are required." };
   }
 
   try {
@@ -134,22 +134,22 @@ export async function authenticateAdmin(
       return {
         success: false,
         error:
-          "Tabel 'admin_users' belum ditemukan di Supabase. Silakan jalankan file supabase/schema.sql di SQL Editor Supabase Anda terlebih dahulu.",
+          "The 'admin_users' table was not found in database. Please run npm run db:setup first.",
       };
     }
 
     if (!data) {
-      return { success: false, error: "Username atau password yang Anda masukkan salah." };
+      return { success: false, error: "Invalid username or password." };
     }
 
     const isValid = verifyPassword(password, data.password_hash);
     if (!isValid) {
-      return { success: false, error: "Username atau password yang Anda masukkan salah." };
+      return { success: false, error: "Invalid username or password." };
     }
 
     return { success: true };
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Kesalahan server";
+    const message = err instanceof Error ? err.message : "Server error occurred";
     return { success: false, error: message };
   }
 }
@@ -167,18 +167,18 @@ export async function createFirstAdmin(
   const email = emailInput?.trim() || null;
 
   if (username.length < 3) {
-    return { success: false, error: "Username minimal 3 karakter." };
+    return { success: false, error: "Username must be at least 3 characters." };
   }
 
   if (password.length < 6) {
-    return { success: false, error: "Password minimal 6 karakter." };
+    return { success: false, error: "Password must be at least 6 characters." };
   }
 
   const exists = await hasAdminAccount();
   if (exists) {
     return {
       success: false,
-      error: "Setup ditolak: Akun administrator sudah ada di database.",
+      error: "Setup rejected: An administrator account already exists.",
     };
   }
 
@@ -195,13 +195,13 @@ export async function createFirstAdmin(
     if (error) {
       return {
         success: false,
-        error: "Gagal menyimpan admin ke Supabase: " + error.message,
+        error: "Failed to save admin user: " + error.message,
       };
     }
 
     return { success: true };
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Kesalahan server";
+    const message = err instanceof Error ? err.message : "Server error occurred";
     return { success: false, error: message };
   }
 }

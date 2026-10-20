@@ -60,7 +60,7 @@ export default function AdminLayout({
                 }`}
               >
                 <FileText className="w-3.5 h-3.5 text-stone-500" />
-                <span>Semua Artikel</span>
+                <span>All Posts</span>
               </Link>
               <Link
                 href="/admin/posts/create"
@@ -71,7 +71,7 @@ export default function AdminLayout({
                 }`}
               >
                 <PlusCircle className="w-3.5 h-3.5 text-amber-700" />
-                <span>Tulis Artikel Baru</span>
+                <span>New Post</span>
               </Link>
               <Link
                 href="/admin/settings"
@@ -82,7 +82,7 @@ export default function AdminLayout({
                 }`}
               >
                 <Sliders className="w-3.5 h-3.5 text-stone-500" />
-                <span>Pengaturan Web</span>
+                <span>Site Settings</span>
               </Link>
             </nav>
           </div>
@@ -100,7 +100,7 @@ export default function AdminLayout({
               target="_blank"
               className="flex items-center gap-1.5 text-xs font-medium text-stone-600 hover:text-stone-900 bg-stone-100 hover:bg-stone-200 px-3 py-1.5 rounded-lg transition"
             >
-              <span>Lihat Web Publik</span>
+              <span>View Public Site</span>
               <ExternalLink className="w-3 h-3 text-stone-400" />
             </Link>
 
@@ -110,14 +110,14 @@ export default function AdminLayout({
               onClick={handleLogout}
               disabled={loggingOut}
               className="flex items-center gap-1.5 text-xs font-semibold text-red-700 hover:text-red-800 hover:bg-red-50 px-3 py-1.5 rounded-lg transition border border-red-200/60"
-              title="Keluar dari Admin Dashboard"
+              title="Log out of Admin Dashboard"
             >
               {loggingOut ? (
                 <Loader2 className="w-3.5 h-3.5 animate-spin" />
               ) : (
                 <LogOut className="w-3.5 h-3.5" />
               )}
-              <span>Logout</span>
+              <span>Log Out</span>
             </button>
           </div>
         </div>

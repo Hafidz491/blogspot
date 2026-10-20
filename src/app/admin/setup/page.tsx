@@ -41,12 +41,12 @@ export default function AdminSetupPage() {
     setErrorMessage(null);
 
     if (password !== confirmPassword) {
-      setErrorMessage("Konfirmasi password tidak cocok.");
+      setErrorMessage("Password confirmation does not match.");
       return;
     }
 
     if (password.length < 6) {
-      setErrorMessage("Password minimal 6 karakter demi keamanan akun.");
+      setErrorMessage("Password must be at least 6 characters for security.");
       return;
     }
 
@@ -62,7 +62,7 @@ export default function AdminSetupPage() {
       const data = await res.json();
 
       if (!res.ok || !data.success) {
-        setErrorMessage(data.error || "Gagal membuat akun admin.");
+        setErrorMessage(data.error || "Failed to create administrator account.");
         setSubmitting(false);
         return;
       }
@@ -72,7 +72,7 @@ export default function AdminSetupPage() {
       router.refresh();
     } catch (err) {
       console.error(err);
-      setErrorMessage("Gagal terhubung ke server.");
+      setErrorMessage("Failed to connect to server.");
       setSubmitting(false);
     }
   };
@@ -94,10 +94,10 @@ export default function AdminSetupPage() {
             <ShieldCheck className="w-7 h-7 text-amber-200" />
           </div>
           <h1 className="font-heading text-3xl font-extrabold text-stone-900 tracking-tight">
-            Setup Admin Pertama
+            Initial Admin Setup
           </h1>
           <p className="text-xs md:text-sm text-stone-600 mt-1.5 leading-relaxed">
-            Buat akun administrator utama Anda. Data akan dienkripsi dan disimpan langsung ke database Supabase Anda.
+            Create your primary administrator account. Data will be hashed with salted PBKDF2 and stored directly in your Supabase database.
           </p>
         </div>
 
@@ -114,7 +114,7 @@ export default function AdminSetupPage() {
             {/* Username Input */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                Username Admin *
+                Admin Username *
               </label>
               <div className="relative">
                 <User className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -123,7 +123,7 @@ export default function AdminSetupPage() {
                   required
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  placeholder="Contoh: admin atau nama Anda"
+                  placeholder="e.g. admin or your name"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -132,7 +132,7 @@ export default function AdminSetupPage() {
             {/* Email Input (Optional) */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                Email (Opsional)
+                Email Address (Optional)
               </label>
               <div className="relative">
                 <Mail className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -158,7 +158,7 @@ export default function AdminSetupPage() {
                   required
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
-                  placeholder="Minimal 6 karakter"
+                  placeholder="At least 6 characters"
                   className="w-full pl-10 pr-11 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
                 <button
@@ -174,7 +174,7 @@ export default function AdminSetupPage() {
             {/* Confirm Password Input */}
             <div>
               <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-1.5">
-                Ulangi Password *
+                Confirm Password *
               </label>
               <div className="relative">
                 <Lock className="w-4 h-4 text-stone-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
@@ -183,7 +183,7 @@ export default function AdminSetupPage() {
                   required
                   value={confirmPassword}
                   onChange={(e) => setConfirmPassword(e.target.value)}
-                  placeholder="Ketik ulang password"
+                  placeholder="Retype password"
                   className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -198,11 +198,11 @@ export default function AdminSetupPage() {
               {submitting ? (
                 <>
                   <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
-                  <span>Menyimpan ke Supabase...</span>
+                  <span>Saving to Database...</span>
                 </>
               ) : (
                 <>
-                  <span>Simpan Akun & Masuk</span>
+                  <span>Create Account & Sign In</span>
                   <ArrowRight className="w-4 h-4" />
                 </>
               )}
@@ -213,10 +213,10 @@ export default function AdminSetupPage() {
           <div className="mt-6 pt-5 border-t border-stone-100 text-[11px] text-stone-500 space-y-2">
             <div className="flex items-center gap-1.5 font-semibold text-stone-700">
               <Database className="w-3.5 h-3.5 text-amber-700" />
-              <span>Koneksi Database Supabase</span>
+              <span>Database Connection</span>
             </div>
             <p className="leading-relaxed">
-              Pastikan tabel telah dibuat dengan menjalankan file <code className="bg-stone-100 px-1 py-0.5 rounded font-mono text-stone-800">supabase/schema.sql</code> di SQL Editor Supabase Anda.
+              Ensure tables are created with <code className="bg-stone-100 px-1 py-0.5 rounded font-mono text-stone-800">npm run db:setup</code> in your terminal.
             </p>
           </div>
         </div>

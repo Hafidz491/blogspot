@@ -19,11 +19,11 @@ export async function POST(request: Request) {
 
     return Response.json({
       success: true,
-      message: "Pengaturan konten web berhasil disimpan!",
+      message: "Website settings saved successfully!",
       settings: result.data,
     });
   } catch (err: unknown) {
-    const message = err instanceof Error ? err.message : "Kesalahan server";
+    const message = err instanceof Error ? err.message : "Server error occurred";
     return Response.json({ success: false, error: message }, { status: 500 });
   }
 }

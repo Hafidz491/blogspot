@@ -23,7 +23,7 @@ export async function POST(request: Request) {
     const token = createSessionToken(username);
     const response = Response.json({
       success: true,
-      message: "Akun administrator berhasil dibuat!",
+      message: "Administrator account created successfully!",
     });
 
     response.headers.set(
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Setup error:", error);
     return Response.json(
-      { success: false, error: "Terjadi kesalahan server saat setup." },
+      { success: false, error: "An unexpected server error occurred during setup." },
       { status: 500 }
     );
   }

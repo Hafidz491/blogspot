@@ -65,14 +65,14 @@ export default function AdminSettingsPage() {
 
       const data = await res.json();
       if (!res.ok || !data.success) {
-        setErrorMessage(data.error || "Gagal menyimpan pengaturan.");
+        setErrorMessage(data.error || "Failed to save settings.");
       } else {
-        setSuccessMessage("Pengaturan konten web berhasil disimpan dan diterapkan ke halaman publik!");
+        setSuccessMessage("Website content settings saved and applied to public pages!");
         setTimeout(() => setSuccessMessage(null), 4000);
       }
     } catch (err) {
       console.error(err);
-      setErrorMessage("Gagal terhubung ke server.");
+      setErrorMessage("Failed to connect to server.");
     } finally {
       setSaving(false);
     }
@@ -82,7 +82,7 @@ export default function AdminSettingsPage() {
     return (
       <div className="py-24 flex flex-col items-center justify-center text-stone-500">
         <Loader2 className="w-8 h-8 animate-spin text-stone-700 mb-3" />
-        <p className="text-sm font-medium">Memuat pengaturan konten web...</p>
+        <p className="text-sm font-medium">Loading website content settings...</p>
       </div>
     );
   }
@@ -94,13 +94,13 @@ export default function AdminSettingsPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full mb-2">
             <Sliders className="w-3.5 h-3.5 text-amber-700" />
-            <span>Kustomisasi Konten</span>
+            <span>Content Customization</span>
           </div>
           <h1 className="text-3xl font-heading font-extrabold text-stone-900 tracking-tight">
-            Pengaturan Konten Web
+            Website Content Settings
           </h1>
           <p className="text-sm text-stone-500 mt-1">
-            Ubah teks pada Hero Section, Footer, Newsletter, dan Branding yang tampil di web publik secara live.
+            Customize hero section, footer, newsletter card, and brand identity displayed live on the public website.
           </p>
         </div>
 
@@ -110,7 +110,7 @@ export default function AdminSettingsPage() {
             target="_blank"
             className="cursor-pointer px-4 py-2.5 rounded-xl border border-stone-300 bg-white hover:bg-stone-50 text-stone-700 text-xs font-semibold flex items-center gap-1.5 transition shadow-2xs"
           >
-            <span>Pratinjau Web Publik</span>
+            <span>View Public Site</span>
             <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
           </Link>
 
@@ -125,7 +125,7 @@ export default function AdminSettingsPage() {
             ) : (
               <Save className="w-4 h-4 text-emerald-400" />
             )}
-            <span>Simpan Perubahan</span>
+            <span>Save Changes</span>
           </button>
         </div>
       </div>
@@ -149,9 +149,9 @@ export default function AdminSettingsPage() {
       <div className="flex items-center gap-2 border-b border-stone-200 pb-2 overflow-x-auto">
         {[
           { id: "hero", label: "Hero Section (/blogs)", icon: Sparkles },
-          { id: "branding", label: "Branding & Navbar", icon: Type },
+          { id: "branding", label: "Branding & Navigation", icon: Type },
           { id: "newsletter", label: "Newsletter Card", icon: Mail },
-          { id: "footer", label: "Footer & Kontak", icon: Layers },
+          { id: "footer", label: "Footer & Social Links", icon: Layers },
         ].map((tab) => {
           const Icon = tab.icon;
           return (
@@ -178,52 +178,52 @@ export default function AdminSettingsPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xs space-y-6 animate-in fade-in">
             <div className="border-b border-stone-100 pb-4">
               <h2 className="text-lg font-heading font-bold text-stone-900">
-                Hero Section (Tampilan Utama Blog)
+                Hero Section (Main Blog Display)
               </h2>
               <p className="text-xs text-stone-500 mt-1">
-                Atur judul besar dan teks pembuka di bagian paling atas halaman utama `/blogs`.
+                Customize the grand heading and introductory subtitle at the top of the `/blogs` page.
               </p>
             </div>
 
             <div className="space-y-5">
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Badge Tagline Hero
+                  Hero Tagline Badge
                 </label>
                 <input
                   type="text"
                   name="heroBadge"
                   value={settings.heroBadge}
                   onChange={handleChange}
-                  placeholder="Contoh: Editorial & Insights"
+                  placeholder="e.g. Editorial & Insights"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Judul Utama Blog (Heading Besar)
+                  Main Blog Heading (Grand Title)
                 </label>
                 <input
                   type="text"
                   name="heroTitle"
                   value={settings.heroTitle}
                   onChange={handleChange}
-                  placeholder="Contoh: The Kindsight Blog"
+                  placeholder="e.g. The Kindsight Blog"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-lg font-heading font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Deskripsi / Subjudul Hero
+                  Hero Subtitle / Description
                 </label>
                 <textarea
                   rows={3}
                   name="heroDescription"
                   value={settings.heroDescription}
                   onChange={handleChange}
-                  placeholder="Tuliskan deskripsi singkat tujuan blog Anda..."
+                  placeholder="Write a brief overview of your blog's purpose..."
                   className="w-full p-4 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition leading-relaxed"
                 />
               </div>
@@ -236,38 +236,38 @@ export default function AdminSettingsPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xs space-y-6 animate-in fade-in">
             <div className="border-b border-stone-100 pb-4">
               <h2 className="text-lg font-heading font-bold text-stone-900">
-                Branding & Navigasi
+                Branding & Navigation
               </h2>
               <p className="text-xs text-stone-500 mt-1">
-                Atur nama logo dan identitas merek yang muncul di pojok kiri atas Navbar.
+                Configure brand logo name and tagline displayed in the navigation header.
               </p>
             </div>
 
             <div className="space-y-5">
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Nama Brand Logo (Navbar)
+                  Brand Logo Name (Navbar)
                 </label>
                 <input
                   type="text"
                   name="brandName"
                   value={settings.brandName}
                   onChange={handleChange}
-                  placeholder="Contoh: Kindsight"
+                  placeholder="e.g. Kindsight"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-base font-heading font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Slogan / Tagline Brand
+                  Brand Slogan / Tagline
                 </label>
                 <input
                   type="text"
                   name="brandTagline"
                   value={settings.brandTagline}
                   onChange={handleChange}
-                  placeholder="Contoh: Modern Insights & Resources"
+                  placeholder="e.g. Modern Insights & Resources"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -283,63 +283,63 @@ export default function AdminSettingsPage() {
                 VIP Newsletter Card
               </h2>
               <p className="text-xs text-stone-500 mt-1">
-                Kustomisasi kartu penawaran newsletter berlatar warna tan yang tersemat di grid artikel.
+                Customize the newsletter call-to-action card embedded inside the article grid.
               </p>
             </div>
 
             <div className="space-y-5">
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Badge Newsletter
+                  Newsletter Badge
                 </label>
                 <input
                   type="text"
                   name="newsletterBadge"
                   value={settings.newsletterBadge}
                   onChange={handleChange}
-                  placeholder="Contoh: VIP Newsletter"
+                  placeholder="e.g. VIP Newsletter"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Judul Penawaran Newsletter
+                  Newsletter Card Heading
                 </label>
                 <input
                   type="text"
                   name="newsletterTitle"
                   value={settings.newsletterTitle}
                   onChange={handleChange}
-                  placeholder="Contoh: Be the first to read our resources."
+                  placeholder="e.g. Be the first to read our resources."
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-base font-heading font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Deskripsi / Nilai Manfaat Newsletter
+                  Newsletter Value Proposition / Description
                 </label>
                 <textarea
                   rows={3}
                   name="newsletterDescription"
                   value={settings.newsletterDescription}
                   onChange={handleChange}
-                  placeholder="Jelaskan keuntungan mendaftar newsletter..."
+                  placeholder="Explain the advantages of subscribing..."
                   className="w-full p-4 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition leading-relaxed"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Teks Tombol Berlangganan
+                  Subscribe Button Text
                 </label>
                 <input
                   type="text"
                   name="newsletterButtonText"
                   value={settings.newsletterButtonText}
                   onChange={handleChange}
-                  placeholder="Contoh: Subscribe Now"
+                  placeholder="e.g. Subscribe Now"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -352,52 +352,52 @@ export default function AdminSettingsPage() {
           <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xs space-y-6 animate-in fade-in">
             <div className="border-b border-stone-100 pb-4">
               <h2 className="text-lg font-heading font-bold text-stone-900">
-                Footer, Kontak & Sosial Media
+                Footer, Contact & Social Media
               </h2>
               <p className="text-xs text-stone-500 mt-1">
-                Atur informasi tentang situs, kontak redaksi, hak cipta, dan link akun sosial media di footer.
+                Configure about information, editorial contact, copyright notice, and social media handles.
               </p>
             </div>
 
             <div className="space-y-5">
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Judul Kolom Tentang di Footer
+                  Footer About Column Title
                 </label>
                 <input
                   type="text"
                   name="footerAboutTitle"
                   value={settings.footerAboutTitle}
                   onChange={handleChange}
-                  placeholder="Contoh: The Kindsight Blog"
+                  placeholder="e.g. The Kindsight Blog"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Deskripsi Singkat di Footer
+                  Footer Summary Description
                 </label>
                 <textarea
                   rows={2}
                   name="footerAboutDescription"
                   value={settings.footerAboutDescription}
                   onChange={handleChange}
-                  placeholder="Deskripsi singkat yang tampil di bagian bawah halaman..."
+                  placeholder="Short description displayed at the bottom of pages..."
                   className="w-full p-4 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-800 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition leading-relaxed"
                 />
               </div>
 
               <div>
                 <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                  Teks Hak Cipta (Copyright)
+                  Copyright Notice
                 </label>
                 <input
                   type="text"
                   name="copyrightText"
                   value={settings.copyrightText}
                   onChange={handleChange}
-                  placeholder="Contoh: © 2026 The Kindsight Blog. All rights reserved."
+                  placeholder="e.g. © 2026 The Kindsight Blog. All rights reserved."
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -405,7 +405,7 @@ export default function AdminSettingsPage() {
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
                 <div>
                   <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                    Email Kontak Redaksi
+                    Editorial Contact Email
                   </label>
                   <input
                     type="email"
@@ -419,7 +419,7 @@ export default function AdminSettingsPage() {
 
                 <div>
                   <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                    Link X (Twitter)
+                    X (Twitter) URL
                   </label>
                   <input
                     type="url"
@@ -433,7 +433,7 @@ export default function AdminSettingsPage() {
 
                 <div>
                   <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                    Link LinkedIn
+                    LinkedIn URL
                   </label>
                   <input
                     type="url"
@@ -447,7 +447,7 @@ export default function AdminSettingsPage() {
 
                 <div>
                   <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
-                    Link Instagram
+                    Instagram URL
                   </label>
                   <input
                     type="url"
@@ -475,7 +475,7 @@ export default function AdminSettingsPage() {
             ) : (
               <Save className="w-4 h-4 text-emerald-400" />
             )}
-            <span>Simpan Semua Pengaturan Konten</span>
+            <span>Save All Content Settings</span>
           </button>
         </div>
       </form>

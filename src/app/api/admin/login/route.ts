@@ -7,7 +7,7 @@ export async function POST(request: Request) {
 
     if (!username || !password) {
       return Response.json(
-        { success: false, error: "Username dan password wajib diisi." },
+        { success: false, error: "Username and password are required." },
         { status: 400 }
       );
     }
@@ -16,7 +16,7 @@ export async function POST(request: Request) {
 
     if (!authResult.success) {
       return Response.json(
-        { success: false, error: authResult.error || "Autentikasi gagal." },
+        { success: false, error: authResult.error || "Authentication failed." },
         { status: 401 }
       );
     }
@@ -25,7 +25,7 @@ export async function POST(request: Request) {
     const token = createSessionToken(username);
 
     // Set HTTP-only cookie
-    const response = Response.json({ success: true, message: "Login berhasil!" });
+    const response = Response.json({ success: true, message: "Logged in successfully!" });
     response.headers.set(
       "Set-Cookie",
       `${ADMIN_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${
@@ -37,7 +37,7 @@ export async function POST(request: Request) {
   } catch (error) {
     console.error("Login route error:", error);
     return Response.json(
-      { success: false, error: "Terjadi kesalahan server saat login." },
+      { success: false, error: "An unexpected server error occurred during login." },
       { status: 500 }
     );
   }

@@ -50,10 +50,10 @@ export default function NewsletterCard({
               <Check className="w-4 h-4" />
             </div>
             <p className="text-xs font-semibold text-stone-900">
-              Terima Kasih Telah Berlangganan!
+              Thank You for Subscribing!
             </p>
             <p className="text-[11px] text-stone-600 mt-0.5">
-              Cek inbox email Anda untuk konfirmasi.
+              Check your email inbox for confirmation.
             </p>
           </div>
         ) : (

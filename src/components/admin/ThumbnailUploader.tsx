@@ -45,7 +45,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
 
   const processFileUpload = async (file: File) => {
     if (!file.type.startsWith("image/")) {
-      alert("Hanya file gambar yang diizinkan (PNG, JPG, WebP, GIF, SVG).");
+      alert("Only image files are allowed (PNG, JPG, WebP, GIF, SVG).");
       return;
     }
 
@@ -53,13 +53,13 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
       setIsUploading(true);
       const { url, error } = await uploadMediaToSupabase(file, "thumbnails");
       if (error || !url) {
-        alert("Gagal mengunggah gambar ke Supabase Storage: " + (error || "Unknown error"));
+        alert("Failed to upload image to storage: " + (error || "Unknown error"));
         return;
       }
       onChange(url);
     } catch (err: unknown) {
       console.error(err);
-      alert("Terjadi kesalahan saat mengunggah thumbnail.");
+      alert("An unexpected error occurred while uploading thumbnail.");
     } finally {
       setIsUploading(false);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -101,7 +101,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
               className="px-4 py-2 rounded-xl bg-white/90 text-stone-900 font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-white transition"
             >
               <RefreshCw className="w-3.5 h-3.5" />
-              Ganti Gambar
+              Change Image
             </button>
             <button
               type="button"
@@ -109,12 +109,12 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
               className="px-4 py-2 rounded-xl bg-red-600/90 text-white font-medium text-xs flex items-center gap-1.5 shadow-md hover:bg-red-600 transition"
             >
               <X className="w-3.5 h-3.5" />
-              Hapus
+              Remove
             </button>
           </div>
           <div className="absolute bottom-3 left-3 bg-stone-900/70 text-white text-[11px] font-medium px-2.5 py-1 rounded-full backdrop-blur-sm flex items-center gap-1.5">
             <ImageIcon className="w-3 h-3" />
-            <span>Thumbnail Siap</span>
+            <span>Thumbnail Ready</span>
           </div>
         </div>
       ) : (
@@ -134,7 +134,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
             <div className="py-6 flex flex-col items-center gap-3">
               <Loader2 className="w-8 h-8 animate-spin text-amber-700" />
               <p className="text-sm font-medium text-stone-700">
-                Mengunggah thumbnail ke Supabase Storage...
+                Uploading thumbnail to storage...
               </p>
             </div>
           ) : (
@@ -143,10 +143,10 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
                 <UploadCloud className="w-7 h-7 text-stone-500" />
               </div>
               <h4 className="text-sm font-semibold text-stone-800">
-                Tarik & Lepas gambar di sini, atau klik untuk memilih
+                Drag & drop an image here, or click to browse
               </h4>
               <p className="text-xs text-stone-500 mt-1 max-w-sm">
-                Mendukung format PNG, JPG, WebP, SVG (Maks. 10MB). Gambar otomatis diunggah ke Supabase Storage.
+                Supports PNG, JPG, WebP, SVG (Max. 10MB). Image is securely hosted.
               </p>
 
               <div
@@ -159,7 +159,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
                   className="text-stone-600 hover:text-stone-900 underline underline-offset-2 flex items-center gap-1"
                 >
                   <LinkIcon className="w-3.5 h-3.5" />
-                  Atau gunakan URL Gambar eksternal
+                  Or use an external image URL
                 </button>
               </div>
 
@@ -186,7 +186,7 @@ export default function ThumbnailUploader({ value, onChange }: ThumbnailUploader
                     onClick={handleSetUrl}
                     className="px-3 py-1.5 rounded-lg bg-stone-900 text-white text-xs font-medium hover:bg-stone-800"
                   >
-                    Gunakan
+                    Apply
                   </button>
                 </div>
               )}

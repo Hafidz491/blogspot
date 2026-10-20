@@ -22,29 +22,29 @@ const question = (query) => new Promise((resolve) => rl.question(query, resolve)
 
 async function main() {
   console.log("\n========================================================");
-  console.log("🛠️  SETUP AKUN ADMIN BLOG (DISIMPAN DI SUPABASE)");
+  console.log("🛠️  SETUP BLOG ADMIN ACCOUNT (SAVED IN SUPABASE)");
   console.log("========================================================\n");
 
-  const username = await question("Masukkan Username Admin Baru: ");
+  const username = await question("Enter New Admin Username: ");
   if (!username.trim() || username.trim().length < 3) {
-    console.error("❌ Username minimal 3 karakter!");
+    console.error("❌ Username must be at least 3 characters!");
     rl.close();
     return;
   }
 
-  const password = await question("Masukkan Password Admin: ");
+  const password = await question("Enter Admin Password: ");
   if (!password.trim() || password.trim().length < 6) {
-    console.error("❌ Password minimal 6 karakter!");
+    console.error("❌ Password must be at least 6 characters!");
     rl.close();
     return;
   }
 
-  const email = await question("Masukkan Email (opsional, tekan enter untuk lewati): ");
+  const email = await question("Enter Email (optional, press Enter to skip): ");
 
-  console.log("\n🔒 Mengenkripsi password dengan salted PBKDF2...");
+  console.log("\n🔒 Encrypting password with salted PBKDF2...");
   const hashedPassword = hashPassword(password.trim());
 
-  console.log("📡 Menyimpan ke tabel 'admin_users' di database Supabase...");
+  console.log("📡 Saving to 'admin_users' table in Supabase database...");
   const { data, error } = await supabase
     .from("admin_users")
     .insert({
@@ -57,13 +57,13 @@ async function main() {
     .single();
 
   if (error) {
-    console.error("\n❌ Gagal menyimpan ke Supabase:", error.message);
-    console.log("💡 Pastikan tabel 'admin_users' sudah dibuat dengan menjalankan supabase/schema.sql di SQL Editor Supabase.");
+    console.error("\n❌ Failed to save to Supabase:", error.message);
+    console.log("💡 Ensure the 'admin_users' table exists by running: npm run db:setup");
   } else {
-    console.log("\n🎉 BERHASIL!");
-    console.log(`Akun admin '${username.trim()}' berhasil disimpan ke database Supabase!`);
-    console.log("Password Anda tersimpan dalam bentuk enkripsi hash yang aman.");
-    console.log("Silakan login di: http://localhost:3000/admin/login\n");
+    console.log("\n🎉 SUCCESS!");
+    console.log(`Admin account '${username.trim()}' has been saved to Supabase database!`);
+    console.log("Your password is encrypted with secure salted hash.");
+    console.log("Please log in at: http://localhost:3000/admin/login\n");
   }
 
   rl.close();
