@@ -27,22 +27,22 @@ export interface SiteSettings {
 }
 
 export const DEFAULT_SITE_SETTINGS: SiteSettings = {
-  brandName: "Kindsight",
+  brandName: "Blog's",
   brandTagline: "Modern Insights & Resources",
   heroBadge: "Editorial & Insights",
-  heroTitle: "The Kindsight Blog",
+  heroTitle: "Blog's",
   heroDescription:
-    "Practical strategies, thoughtful perspectives, and tools for modern philanthropy.",
+    "Practical strategies, thoughtful perspectives, and tools for modern storytelling and insights.",
   newsletterBadge: "VIP Newsletter",
   newsletterTitle: "Be the first to read our resources.",
   newsletterDescription:
-    "The creative fundraising revolution — and our collaborative ideas starting in our VIP inbox will provide you real insights and transparency sent straight to your inbox.",
+    "The creative ideas and curated perspectives starting in our VIP inbox will provide you real insights sent straight to your inbox.",
   newsletterButtonText: "Subscribe Now",
-  footerAboutTitle: "The Kindsight Blog",
+  footerAboutTitle: "Blog's",
   footerAboutDescription:
-    "Curated perspectives on nonprofit growth, donor relationships, modern fundraising strategies, and philanthropic innovations.",
-  copyrightText: "© 2026 The Kindsight Blog. All rights reserved.",
-  contactEmail: "editorial@kindsight.org",
+    "Curated perspectives on growth, modern strategies, thoughtful stories, and creative innovations.",
+  copyrightText: "© 2026 Blog's. All rights reserved.",
+  contactEmail: "editorial@blogs.org",
   socialTwitter: "https://twitter.com",
   socialLinkedIn: "https://linkedin.com",
   socialInstagram: "https://instagram.com",

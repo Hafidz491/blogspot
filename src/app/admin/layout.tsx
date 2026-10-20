@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import { FileText, PlusCircle, Sliders, ExternalLink, LogOut, Loader2, User } from "lucide-react";
 
@@ -41,8 +42,16 @@ export default function AdminLayout({
           {/* Brand Logo & Admin Badge */}
           <div className="flex items-center gap-4">
             <Link href="/admin/posts" className="flex items-center gap-2.5 group">
+              <div className="relative w-7 h-7 rounded-lg overflow-hidden shadow-2xs group-hover:scale-105 transition-transform">
+                <Image
+                  src="/logo.png"
+                  alt="Blog's Logo"
+                  fill
+                  className="object-contain"
+                />
+              </div>
               <span className="font-heading text-xl font-extrabold tracking-tight text-stone-900 group-hover:text-amber-800 transition">
-                The Kindsight
+                Blog&apos;s
               </span>
               <span className="px-2 py-0.5 text-[10px] font-bold tracking-wider uppercase bg-stone-900 text-stone-100 rounded-md">
                 Admin
@@ -130,7 +139,7 @@ export default function AdminLayout({
 
       {/* Admin Footer */}
       <footer className="border-t border-stone-200 py-6 text-center text-xs text-stone-400">
-        The Kindsight Blog Admin Dashboard • Secured with Admin Auth
+        Blog&apos;s Admin Dashboard • Secured with Admin Auth
       </footer>
     </div>
   );

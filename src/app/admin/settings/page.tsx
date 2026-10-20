@@ -209,7 +209,7 @@ export default function AdminSettingsPage() {
                   name="heroTitle"
                   value={settings.heroTitle}
                   onChange={handleChange}
-                  placeholder="e.g. The Kindsight Blog"
+                  placeholder="e.g. Blog's"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-lg font-heading font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -253,7 +253,7 @@ export default function AdminSettingsPage() {
                   name="brandName"
                   value={settings.brandName}
                   onChange={handleChange}
-                  placeholder="e.g. Kindsight"
+                  placeholder="e.g. Blog's"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-base font-heading font-bold text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -369,7 +369,7 @@ export default function AdminSettingsPage() {
                   name="footerAboutTitle"
                   value={settings.footerAboutTitle}
                   onChange={handleChange}
-                  placeholder="e.g. The Kindsight Blog"
+                  placeholder="e.g. Blog's"
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>
@@ -397,7 +397,7 @@ export default function AdminSettingsPage() {
                   name="copyrightText"
                   value={settings.copyrightText}
                   onChange={handleChange}
-                  placeholder="e.g. © 2026 The Kindsight Blog. All rights reserved."
+                  placeholder="e.g. © 2026 Blog's. All rights reserved."
                   className="w-full px-4 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
                 />
               </div>

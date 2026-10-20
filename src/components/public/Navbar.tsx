@@ -2,16 +2,26 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { Menu, X } from "lucide-react";
 
-export default function Navbar({ brandName = "Kindsight" }: { brandName?: string }) {
+export default function Navbar({ brandName = "Blog's" }: { brandName?: string }) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
     <header className="w-full bg-[#FAF8F5]/90 backdrop-blur-md sticky top-0 z-40 border-b border-stone-200/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
         {/* Brand Logo */}
-        <Link href="/blogs" className="flex items-center gap-2 group">
+        <Link href="/blogs" className="flex items-center gap-3 group">
+          <div className="relative w-10 h-10 rounded-xl overflow-hidden shadow-2xs group-hover:scale-105 transition-transform duration-200">
+            <Image
+              src="/logo.png"
+              alt={brandName}
+              fill
+              className="object-contain"
+              priority
+            />
+          </div>
           <span className="font-heading text-2xl font-bold tracking-tight text-stone-900 group-hover:text-amber-800 transition">
             {brandName}
           </span>

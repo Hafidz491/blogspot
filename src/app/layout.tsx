@@ -19,8 +19,8 @@ const plusJakartaSans = Plus_Jakarta_Sans({
 });
 
 export const metadata: Metadata = {
-  title: "The Kindsight Blog — Modern Insights & Resources",
-  description: "Modern editorial blog platform for thoughtful insights, donation strategies, and philanthropic resources.",
+  title: "Blog's — Modern Insights & Resources",
+  description: "Modern editorial blog platform for thoughtful insights, guides, and creative perspectives.",
 };
 
 export default function RootLayout({

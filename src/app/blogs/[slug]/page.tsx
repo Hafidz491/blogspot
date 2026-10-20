@@ -24,13 +24,13 @@ export async function generateMetadata({
 
   if (!post) {
     return {
-      title: "Article Not Found — The Kindsight Blog",
+      title: "Article Not Found — Blog's",
     };
   }
 
   return {
-    title: `${post.title} — The Kindsight Blog`,
-    description: post.excerpt || "Read full article on The Kindsight Blog",
+    title: `${post.title} — Blog's`,
+    description: post.excerpt || "Read full article on Blog's",
     openGraph: {
       title: post.title,
       description: post.excerpt,

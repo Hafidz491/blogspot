@@ -14,7 +14,7 @@ async function verify() {
       const text = await res.text();
       console.log(`[${res.status}] ${r.name} (${r.url}) - Length: ${text.length} bytes`);
       if (r.url.includes("/blogs") && !r.url.includes("letter")) {
-        console.log(`  -> Contains "The Kindsight Blog": ${text.includes("The Kindsight Blog")}`);
+        console.log(`  -> Contains "Blog's": ${text.includes("Blog's")}`);
         console.log(`  -> Contains Newsletter Card text: ${text.includes("Be the")}`);
       }
       if (r.url.includes("create")) {
