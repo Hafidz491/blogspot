@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { ShieldCheck, Lock, User, Mail, Eye, EyeOff, Loader2, ArrowRight, AlertCircle, Database } from "lucide-react";
 
 export default function AdminSetupPage() {
@@ -90,8 +91,14 @@ export default function AdminSetupPage() {
       <div className="relative w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-amber-800 text-white shadow-md mb-4">
-            <ShieldCheck className="w-7 h-7 text-amber-200" />
+          <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md border border-stone-200/90 mb-4 overflow-hidden">
+            <Image
+              src="/logo.png"
+              alt="Blog's Logo"
+              fill
+              className="object-contain p-2.5"
+              priority
+            />
           </div>
           <h1 className="font-heading text-3xl font-extrabold text-stone-900 tracking-tight">
             Initial Admin Setup

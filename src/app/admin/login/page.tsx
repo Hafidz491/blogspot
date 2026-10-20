@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, ArrowRight, UserPlus } from "lucide-react";
 
 export default function AdminLoginPage() {
@@ -69,8 +70,14 @@ export default function AdminLoginPage() {
       <div className="relative w-full max-w-md">
         {/* Brand Header */}
         <div className="text-center mb-8">
-          <div className="inline-flex items-center justify-center w-14 h-14 rounded-2xl bg-stone-900 text-white shadow-md mb-4">
-            <ShieldCheck className="w-7 h-7 text-amber-400" />
+          <div className="relative inline-flex items-center justify-center w-16 h-16 rounded-2xl bg-white shadow-md border border-stone-200/90 mb-4 overflow-hidden">
+            <Image
+              src="/logo.png"
+              alt="Blog's Logo"
+              fill
+              className="object-contain p-2.5"
+              priority
+            />
           </div>
           <h1 className="font-heading text-3xl font-extrabold text-stone-900 tracking-tight">
             Admin Portal
