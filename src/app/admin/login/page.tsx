@@ -4,7 +4,7 @@ import React, { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import Image from "next/image";
-import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, ArrowRight, UserPlus } from "lucide-react";
+import { Lock, User, Eye, EyeOff, Loader2, ShieldCheck, ArrowRight, UserPlus, Clock } from "lucide-react";
 
 export default function AdminLoginPage() {
   const router = useRouter();
@@ -13,9 +13,21 @@ export default function AdminLoginPage() {
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [sessionNotice, setSessionNotice] = useState<string | null>(null);
   const [showSetupPrompt, setShowSetupPrompt] = useState(false);
 
   useEffect(() => {
+    // Check reason parameter (e.g., ?reason=afk or ?reason=expired)
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const reason = params.get("reason");
+      if (reason === "afk") {
+        setSessionNotice("Your session was logged out due to 2 hours of inactivity (AFK). Please sign in again.");
+      } else if (reason === "expired") {
+        setSessionNotice("Your 2-hour login session has expired. Please sign in again.");
+      }
+    }
+
     async function checkAdminExists() {
       try {
         const res = await fetch("/api/admin/setup");
@@ -89,6 +101,13 @@ export default function AdminLoginPage() {
 
         {/* Login Card */}
         <div className="bg-white rounded-2xl sm:rounded-3xl p-6 sm:p-8 border border-stone-200/90 shadow-sm">
+          {sessionNotice && (
+            <div className="mb-5 p-3.5 rounded-xl bg-amber-50 border border-amber-200 text-amber-900 text-xs font-medium flex items-start gap-2.5 animate-in fade-in leading-relaxed">
+              <Clock className="w-4 h-4 text-amber-700 shrink-0 mt-0.5" />
+              <span>{sessionNotice}</span>
+            </div>
+          )}
+
           {errorMessage && (
             <div className="mb-5 p-3.5 rounded-xl bg-red-50 border border-red-200 text-red-700 text-xs font-medium animate-in fade-in leading-relaxed">
               {errorMessage}

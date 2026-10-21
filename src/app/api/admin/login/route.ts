@@ -1,4 +1,4 @@
-import { authenticateAdmin, createSessionToken, ADMIN_COOKIE_NAME } from "@/lib/auth";
+import { authenticateAdmin, createSessionToken, ADMIN_COOKIE_NAME, SESSION_DURATION_SECONDS } from "@/lib/auth";
 
 export async function POST(request: Request) {
   try {
@@ -21,16 +21,14 @@ export async function POST(request: Request) {
       );
     }
 
-    // Create session token
+    // Create session token with 2-hour expiration
     const token = createSessionToken(username);
 
-    // Set HTTP-only cookie
+    // Set HTTP-only cookie with 2-hour max-age (7200 seconds)
     const response = Response.json({ success: true, message: "Logged in successfully!" });
     response.headers.set(
       "Set-Cookie",
-      `${ADMIN_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${
-        7 * 24 * 60 * 60
-      }`
+      `${ADMIN_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_DURATION_SECONDS}`
     );
 
     return response;

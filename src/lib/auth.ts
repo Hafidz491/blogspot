@@ -44,11 +44,14 @@ export function verifyPassword(password: string, storedHash: string): boolean {
   }
 }
 
+export const SESSION_DURATION_SECONDS = 2 * 60 * 60; // 2 hours (7200 seconds)
+export const SESSION_DURATION_MS = SESSION_DURATION_SECONDS * 1000; // 2 hours in ms (7,200,000 ms)
+
 /**
- * Generate a signed session token
+ * Generate a signed session token with 2-hour expiration
  */
 export function createSessionToken(username: string): string {
-  const expiresAt = Date.now() + 7 * 24 * 60 * 60 * 1000; // 7 days
+  const expiresAt = Date.now() + SESSION_DURATION_MS; // Exactly 2 hours
   const payload = JSON.stringify({ username, expiresAt });
   const base64Payload = Buffer.from(payload).toString("base64url");
   const signature = crypto
@@ -85,6 +88,36 @@ export function verifySessionToken(token: string | undefined | null): boolean {
     return true;
   } catch {
     return false;
+  }
+}
+
+/**
+ * Decode and extract session payload if valid and not expired
+ */
+export function getSessionPayload(token: string | undefined | null): { username: string; expiresAt: number } | null {
+  if (!token) return null;
+  try {
+    const parts = token.split(".");
+    if (parts.length !== 2) return null;
+
+    const [base64Payload, signature] = parts;
+    const expectedSignature = crypto
+      .createHmac("sha256", SECRET_KEY)
+      .update(base64Payload)
+      .digest("base64url");
+
+    if (signature !== expectedSignature) return null;
+
+    const payloadStr = Buffer.from(base64Payload, "base64url").toString("utf-8");
+    const payload = JSON.parse(payloadStr);
+
+    if (!payload.expiresAt || payload.expiresAt < Date.now()) {
+      return null;
+    }
+
+    return payload;
+  } catch {
+    return null;
   }
 }
 

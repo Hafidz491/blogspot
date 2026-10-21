@@ -14,14 +14,21 @@ export function middleware(request: NextRequest) {
 
     // Basic session validation
     let isValidSession = false;
+    let isExpired = false;
+
     if (sessionCookie) {
       try {
         const [base64Payload] = sessionCookie.split(".");
         if (base64Payload) {
-          const payloadStr = atob(base64Payload);
+          const b64 = base64Payload.replace(/-/g, "+").replace(/_/g, "/");
+          const payloadStr = atob(b64);
           const payload = JSON.parse(payloadStr);
-          if (payload.expiresAt && payload.expiresAt > Date.now()) {
-            isValidSession = true;
+          if (payload.expiresAt) {
+            if (payload.expiresAt > Date.now()) {
+              isValidSession = true;
+            } else {
+              isExpired = true;
+            }
           }
         }
       } catch {
@@ -49,7 +56,14 @@ export function middleware(request: NextRequest) {
     if (!isValidSession) {
       const loginUrl = new URL("/admin/login", request.url);
       loginUrl.searchParams.set("callbackUrl", pathname);
-      return NextResponse.redirect(loginUrl);
+      if (isExpired || sessionCookie) {
+        loginUrl.searchParams.set("reason", "expired");
+      }
+      const response = NextResponse.redirect(loginUrl);
+      if (sessionCookie) {
+        response.cookies.delete(ADMIN_COOKIE_NAME);
+      }
+      return response;
     }
   }
 

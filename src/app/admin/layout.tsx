@@ -15,6 +15,7 @@ import {
   Menu,
   X,
 } from "lucide-react";
+import AdminInactivityTracker from "@/components/admin/AdminInactivityTracker";
 
 export default function AdminLayout({
   children,
@@ -34,6 +35,9 @@ export default function AdminLayout({
   const handleLogout = async () => {
     setLoggingOut(true);
     try {
+      if (typeof window !== "undefined") {
+        localStorage.removeItem("admin_last_activity_timestamp");
+      }
       await fetch("/api/admin/logout", { method: "POST" });
       router.push("/admin/login");
       router.refresh();
@@ -47,6 +51,9 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col font-sans">
+      {/* AFK / Inactivity Timeout Tracker (2 Hours) */}
+      <AdminInactivityTracker />
+
       {/* Top Admin Navigation Bar */}
       <header className="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-stone-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">

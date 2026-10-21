@@ -1,4 +1,4 @@
-import { hasAdminAccount, createFirstAdmin, createSessionToken, ADMIN_COOKIE_NAME } from "@/lib/auth";
+import { hasAdminAccount, createFirstAdmin, createSessionToken, ADMIN_COOKIE_NAME, SESSION_DURATION_SECONDS } from "@/lib/auth";
 
 export async function GET() {
   const exists = await hasAdminAccount();
@@ -19,7 +19,7 @@ export async function POST(request: Request) {
       );
     }
 
-    // Auto-login newly created admin with session cookie
+    // Auto-login newly created admin with 2-hour session cookie
     const token = createSessionToken(username);
     const response = Response.json({
       success: true,
@@ -28,9 +28,7 @@ export async function POST(request: Request) {
 
     response.headers.set(
       "Set-Cookie",
-      `${ADMIN_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${
-        7 * 24 * 60 * 60
-      }`
+      `${ADMIN_COOKIE_NAME}=${token}; Path=/; HttpOnly; SameSite=Lax; Max-Age=${SESSION_DURATION_SECONDS}`
     );
 
     return response;
