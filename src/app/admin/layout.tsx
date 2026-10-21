@@ -52,7 +52,7 @@ export default function AdminLayout({
 
   return (
     <div className="min-h-screen bg-[#FAF8F5] flex flex-col font-sans">
-      {/* AFK / Inactivity Timeout Tracker (2 Hours) */}
+      {/* AFK / Inactivity Timeout Tracker (15 Minutes) */}
       <AdminInactivityTracker />
 
       {/* Top Admin Navigation Bar */}

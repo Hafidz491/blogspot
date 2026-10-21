@@ -44,14 +44,14 @@ export function verifyPassword(password: string, storedHash: string): boolean {
   }
 }
 
-export const SESSION_DURATION_SECONDS = 2 * 60 * 60; // 2 hours (7200 seconds)
-export const SESSION_DURATION_MS = SESSION_DURATION_SECONDS * 1000; // 2 hours in ms (7,200,000 ms)
+export const SESSION_DURATION_SECONDS = 15 * 60; // 15 minutes (900 seconds)
+export const SESSION_DURATION_MS = SESSION_DURATION_SECONDS * 1000; // 15 minutes in ms (900,000 ms)
 
 /**
- * Generate a signed session token with 2-hour expiration
+ * Generate a signed session token with 15-minute expiration
  */
 export function createSessionToken(username: string): string {
-  const expiresAt = Date.now() + SESSION_DURATION_MS; // Exactly 2 hours
+  const expiresAt = Date.now() + SESSION_DURATION_MS; // Exactly 15 minutes
   const payload = JSON.stringify({ username, expiresAt });
   const base64Payload = Buffer.from(payload).toString("base64url");
   const signature = crypto

@@ -22,9 +22,9 @@ export default function AdminLoginPage() {
       const params = new URLSearchParams(window.location.search);
       const reason = params.get("reason");
       if (reason === "afk") {
-        setSessionNotice("Your session was logged out due to 2 hours of inactivity (AFK). Please sign in again.");
+        setSessionNotice("Your session was logged out due to 15 minutes of inactivity (AFK). Please sign in again.");
       } else if (reason === "expired") {
-        setSessionNotice("Your 2-hour login session has expired. Please sign in again.");
+        setSessionNotice("Your 15-minute login session has expired. Please sign in again.");
       }
     }
 

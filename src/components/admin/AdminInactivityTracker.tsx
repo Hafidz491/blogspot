@@ -3,10 +3,10 @@
 import { useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
 
-// 2 hours in milliseconds = 2 * 60 * 60 * 1000 = 7,200,000 ms
-const INACTIVITY_TIMEOUT_MS = 2 * 60 * 60 * 1000;
+// 15 minutes in milliseconds = 15 * 60 * 1000 = 900,000 ms
+const INACTIVITY_TIMEOUT_MS = 15 * 60 * 1000;
 const STORAGE_KEY = "admin_last_activity_timestamp";
-const REFRESH_INTERVAL_MS = 15 * 60 * 1000; // 15 minutes
+const REFRESH_INTERVAL_MS = 5 * 60 * 1000; // 5 minutes
 
 export default function AdminInactivityTracker() {
   const router = useRouter();
@@ -23,7 +23,7 @@ export default function AdminInactivityTracker() {
         if (stored) {
           const lastActive = parseInt(stored, 10);
           if (!isNaN(lastActive) && now - lastActive >= INACTIVITY_TIMEOUT_MS) {
-            // AFK timeout exceeded (inactive for 2+ hours)
+            // AFK timeout exceeded (inactive for 15+ minutes)
             await handleLogout("afk");
             return;
           }
