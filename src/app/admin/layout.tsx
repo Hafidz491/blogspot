@@ -14,6 +14,7 @@ import {
   User,
   Menu,
   X,
+  KeyRound,
 } from "lucide-react";
 import AdminInactivityTracker from "@/components/admin/AdminInactivityTracker";
 
@@ -111,6 +112,14 @@ export default function AdminLayout({
                 <Sliders className="w-3.5 h-3.5 text-stone-500" />
                 <span>Site Settings</span>
               </Link>
+              <Link
+                href="/admin/settings?tab=security"
+                className="px-3 py-1.5 rounded-lg transition flex items-center gap-1.5 hover:bg-stone-100 hover:text-stone-900"
+                title="Change Administrator Password"
+              >
+                <KeyRound className="w-3.5 h-3.5 text-stone-500" />
+                <span>Password</span>
+              </Link>
             </nav>
           </div>
 
@@ -197,6 +206,14 @@ export default function AdminLayout({
             >
               <Sliders className="w-4 h-4" />
               <span>Site Settings</span>
+            </Link>
+            <Link
+              href="/admin/settings?tab=security"
+              onClick={() => setMobileMenuOpen(false)}
+              className="flex items-center gap-2.5 px-3 py-2.5 rounded-xl text-xs font-semibold text-stone-700 hover:bg-stone-100 transition"
+            >
+              <KeyRound className="w-4 h-4 text-stone-600" />
+              <span>Change Password</span>
             </Link>
 
             <div className="pt-3 border-t border-stone-100 flex items-center justify-between gap-2">

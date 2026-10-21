@@ -14,6 +14,11 @@ import {
   Layers,
   Type,
   ExternalLink,
+  KeyRound,
+  ShieldCheck,
+  Eye,
+  EyeOff,
+  Lock,
 } from "lucide-react";
 import { SiteSettings, DEFAULT_SITE_SETTINGS } from "@/types/settings";
 import Link from "next/link";
@@ -24,9 +29,28 @@ export default function AdminSettingsPage() {
   const [saving, setSaving] = useState(false);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "newsletter" | "footer">("hero");
+  const [activeTab, setActiveTab] = useState<"branding" | "hero" | "newsletter" | "footer" | "security">("hero");
+
+  // Change Password state
+  const [pwdCurrent, setPwdCurrent] = useState("");
+  const [pwdNew, setPwdNew] = useState("");
+  const [pwdConfirm, setPwdConfirm] = useState("");
+  const [showCurrentPwd, setShowCurrentPwd] = useState(false);
+  const [showNewPwd, setShowNewPwd] = useState(false);
+  const [showConfirmPwd, setShowConfirmPwd] = useState(false);
+  const [pwdUpdating, setPwdUpdating] = useState(false);
+  const [pwdSuccess, setPwdSuccess] = useState<string | null>(null);
+  const [pwdError, setPwdError] = useState<string | null>(null);
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      const params = new URLSearchParams(window.location.search);
+      const tabParam = params.get("tab");
+      if (tabParam === "security") {
+        setActiveTab("security");
+      }
+    }
+
     async function loadSettings() {
       try {
         const res = await fetch("/api/admin/settings");
@@ -78,6 +102,50 @@ export default function AdminSettingsPage() {
     }
   };
 
+  const handlePasswordSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setPwdSuccess(null);
+    setPwdError(null);
+
+    if (pwdNew !== pwdConfirm) {
+      setPwdError("New password and confirmation do not match.");
+      return;
+    }
+
+    if (pwdNew.length < 6) {
+      setPwdError("New password must be at least 6 characters long.");
+      return;
+    }
+
+    setPwdUpdating(true);
+    try {
+      const res = await fetch("/api/admin/change-password", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          currentPassword: pwdCurrent,
+          newPassword: pwdNew,
+          confirmPassword: pwdConfirm,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok || !data.success) {
+        setPwdError(data.error || "Failed to update password.");
+      } else {
+        setPwdSuccess(data.message || "Password updated successfully!");
+        setPwdCurrent("");
+        setPwdNew("");
+        setPwdConfirm("");
+      }
+    } catch (err) {
+      console.error(err);
+      setPwdError("Failed to connect to server. Please try again.");
+    } finally {
+      setPwdUpdating(false);
+    }
+  };
+
   if (loading) {
     return (
       <div className="py-24 flex flex-col items-center justify-center text-stone-500">
@@ -94,13 +162,13 @@ export default function AdminSettingsPage() {
         <div>
           <div className="inline-flex items-center gap-1.5 text-xs font-bold text-amber-900 bg-amber-100/80 px-2.5 py-0.5 rounded-full mb-2">
             <Sliders className="w-3.5 h-3.5 text-amber-700" />
-            <span>Content Customization</span>
+            <span>Content & Security</span>
           </div>
           <h1 className="text-2xl sm:text-3xl font-heading font-extrabold text-stone-900 tracking-tight">
-            Website Content Settings
+            Settings & Security
           </h1>
           <p className="text-xs sm:text-sm text-stone-500 mt-1">
-            Customize hero section, footer, newsletter card, and brand identity displayed live on the public website.
+            Customize website layout, hero banner, newsletter, brand identity, and manage administrator password.
           </p>
         </div>
 
@@ -114,19 +182,21 @@ export default function AdminSettingsPage() {
             <ExternalLink className="w-3.5 h-3.5 text-stone-400" />
           </Link>
 
-          <button
-            type="button"
-            onClick={handleSave}
-            disabled={saving}
-            className="flex-1 sm:flex-initial cursor-pointer px-4 sm:px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm disabled:opacity-50"
-          >
-            {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
-            ) : (
-              <Save className="w-4 h-4 text-emerald-400" />
-            )}
-            <span>Save Changes</span>
-          </button>
+          {activeTab !== "security" && (
+            <button
+              type="button"
+              onClick={handleSave}
+              disabled={saving}
+              className="flex-1 sm:flex-initial cursor-pointer px-4 sm:px-5 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs font-bold flex items-center justify-center gap-2 transition shadow-sm disabled:opacity-50"
+            >
+              {saving ? (
+                <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
+              ) : (
+                <Save className="w-4 h-4 text-emerald-400" />
+              )}
+              <span>Save Changes</span>
+            </button>
+          )}
         </div>
       </div>
 
@@ -152,6 +222,7 @@ export default function AdminSettingsPage() {
           { id: "branding", label: "Branding", icon: Type },
           { id: "newsletter", label: "Newsletter Card", icon: Mail },
           { id: "footer", label: "Footer & Social", icon: Layers },
+          { id: "security", label: "Security & Password", icon: KeyRound },
         ].map((tab) => {
           const Icon = tab.icon;
           return (
@@ -463,21 +534,166 @@ export default function AdminSettingsPage() {
           </div>
         )}
 
-        {/* Bottom Save Button */}
-        <div className="flex items-center justify-end gap-3 pt-4">
-          <button
-            type="submit"
-            disabled={saving}
-            className="cursor-pointer px-6 py-3 rounded-xl bg-stone-900 hover:bg-black text-white text-sm font-bold flex items-center gap-2 transition shadow-md disabled:opacity-50"
-          >
-            {saving ? (
-              <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
-            ) : (
-              <Save className="w-4 h-4 text-emerald-400" />
-            )}
-            <span>Save All Content Settings</span>
-          </button>
-        </div>
+        {/* Tab 5: Security & Change Password */}
+        {activeTab === "security" && (
+          <div className="space-y-6 animate-in fade-in">
+            {/* Informational Security Banner */}
+            <div className="bg-amber-50/70 border border-amber-200/80 rounded-3xl p-6 sm:p-7 flex flex-col sm:flex-row items-start sm:items-center gap-4">
+              <div className="w-12 h-12 rounded-2xl bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
+                <ShieldCheck className="w-6 h-6 text-amber-700" />
+              </div>
+              <div className="space-y-1">
+                <h3 className="font-heading font-bold text-stone-900 text-base">
+                  Database-Level Salted Encryption
+                </h3>
+                <p className="text-xs sm:text-sm text-stone-600 leading-relaxed">
+                  Your administrator password is cryptographically protected with salted PBKDF2 (10,000 iterations, SHA-512) and stored directly in your Supabase database.
+                </p>
+              </div>
+            </div>
+
+            {/* Change Password Card */}
+            <div className="bg-white p-6 sm:p-8 rounded-3xl border border-stone-200 shadow-xs space-y-6">
+              <div className="border-b border-stone-100 pb-4">
+                <h2 className="text-lg font-heading font-bold text-stone-900 flex items-center gap-2">
+                  <KeyRound className="w-5 h-5 text-stone-700" />
+                  <span>Change Administrator Password</span>
+                </h2>
+                <p className="text-xs text-stone-500 mt-1">
+                  Choose a strong, unique password to prevent unauthorized access and clear Google Chrome compromised password warnings.
+                </p>
+              </div>
+
+              {pwdSuccess && (
+                <div className="p-4 rounded-2xl bg-emerald-50 border border-emerald-200 text-emerald-800 text-xs md:text-sm font-medium flex items-center gap-2.5 animate-in fade-in">
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 shrink-0" />
+                  <span>{pwdSuccess}</span>
+                </div>
+              )}
+
+              {pwdError && (
+                <div className="p-4 rounded-2xl bg-red-50 border border-red-200 text-red-800 text-xs md:text-sm font-medium flex items-center gap-2.5 animate-in fade-in">
+                  <AlertCircle className="w-5 h-5 text-red-600 shrink-0" />
+                  <span>{pwdError}</span>
+                </div>
+              )}
+
+              <div className="space-y-5 max-w-xl">
+                {/* Current Password */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    Current Password *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showCurrentPwd ? "text" : "password"}
+                      required
+                      value={pwdCurrent}
+                      onChange={(e) => setPwdCurrent(e.target.value)}
+                      placeholder="Enter your current password"
+                      className="w-full pl-4 pr-11 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowCurrentPwd(!showCurrentPwd)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition cursor-pointer"
+                      aria-label="Toggle Current Password Visibility"
+                    >
+                      {showCurrentPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                {/* New Password */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    New Password *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showNewPwd ? "text" : "password"}
+                      required
+                      value={pwdNew}
+                      onChange={(e) => setPwdNew(e.target.value)}
+                      placeholder="Enter a new strong password"
+                      className="w-full pl-4 pr-11 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowNewPwd(!showNewPwd)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition cursor-pointer"
+                      aria-label="Toggle New Password Visibility"
+                    >
+                      {showNewPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                  <p className="text-[11px] text-stone-500 mt-1.5 leading-relaxed">
+                    Must be at least 6 characters. Recommended: mix of uppercase, lowercase, numbers, and symbols (e.g. <code className="bg-stone-100 px-1 py-0.5 rounded text-stone-800">Blog#Admin2026!Secure</code>).
+                  </p>
+                </div>
+
+                {/* Confirm New Password */}
+                <div>
+                  <label className="block text-xs font-bold text-stone-700 uppercase tracking-wider mb-2">
+                    Confirm New Password *
+                  </label>
+                  <div className="relative">
+                    <input
+                      type={showConfirmPwd ? "text" : "password"}
+                      required
+                      value={pwdConfirm}
+                      onChange={(e) => setPwdConfirm(e.target.value)}
+                      placeholder="Repeat your new password"
+                      className="w-full pl-4 pr-11 py-2.5 rounded-xl border border-stone-200 bg-[#FAF8F5] text-sm text-stone-900 focus:outline-none focus:ring-2 focus:ring-stone-900 focus:bg-white transition"
+                    />
+                    <button
+                      type="button"
+                      onClick={() => setShowConfirmPwd(!showConfirmPwd)}
+                      className="absolute right-3.5 top-1/2 -translate-y-1/2 text-stone-400 hover:text-stone-700 transition cursor-pointer"
+                      aria-label="Toggle Confirm Password Visibility"
+                    >
+                      {showConfirmPwd ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
+                    </button>
+                  </div>
+                </div>
+
+                <div className="pt-2">
+                  <button
+                    type="button"
+                    onClick={handlePasswordSubmit}
+                    disabled={pwdUpdating}
+                    className="cursor-pointer px-6 py-2.5 rounded-xl bg-stone-900 hover:bg-black text-white text-xs sm:text-sm font-bold flex items-center gap-2 transition shadow-md disabled:opacity-50"
+                  >
+                    {pwdUpdating ? (
+                      <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
+                    ) : (
+                      <Lock className="w-4 h-4 text-emerald-400" />
+                    )}
+                    <span>Update Password</span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Bottom Save Button (Only for content settings tabs) */}
+        {activeTab !== "security" && (
+          <div className="flex items-center justify-end gap-3 pt-4">
+            <button
+              type="submit"
+              disabled={saving}
+              className="cursor-pointer px-6 py-3 rounded-xl bg-stone-900 hover:bg-black text-white text-sm font-bold flex items-center gap-2 transition shadow-md disabled:opacity-50"
+            >
+              {saving ? (
+                <Loader2 className="w-4 h-4 animate-spin text-stone-300" />
+              ) : (
+                <Save className="w-4 h-4 text-emerald-400" />
+              )}
+              <span>Save All Content Settings</span>
+            </button>
+          </div>
+        )}
       </form>
     </div>
   );

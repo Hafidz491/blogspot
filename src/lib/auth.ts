@@ -238,3 +238,63 @@ export async function createFirstAdmin(
     return { success: false, error: message };
   }
 }
+
+/**
+ * Update an existing admin's password in Supabase
+ */
+export async function updateAdminPassword(
+  username: string,
+  currentPasswordInput: string,
+  newPasswordInput: string
+): Promise<{ success: boolean; error?: string }> {
+  const currentPassword = currentPasswordInput.trim();
+  const newPassword = newPasswordInput.trim();
+
+  if (!currentPassword || !newPassword) {
+    return { success: false, error: "Current password and new password are required." };
+  }
+
+  if (newPassword.length < 6) {
+    return { success: false, error: "New password must be at least 6 characters long." };
+  }
+
+  if (currentPassword === newPassword) {
+    return { success: false, error: "New password cannot be identical to current password." };
+  }
+
+  try {
+    const { data: user, error: fetchError } = await supabase
+      .from("admin_users")
+      .select("id, username, password_hash")
+      .eq("username", username)
+      .maybeSingle();
+
+    if (fetchError || !user) {
+      return { success: false, error: "Administrator account not found in database." };
+    }
+
+    const isValid = verifyPassword(currentPassword, user.password_hash);
+    if (!isValid) {
+      return { success: false, error: "Current password does not match our records." };
+    }
+
+    const newHashedPassword = hashPassword(newPassword);
+
+    const { error: updateError } = await supabase
+      .from("admin_users")
+      .update({
+        password_hash: newHashedPassword,
+        updated_at: new Date().toISOString(),
+      })
+      .eq("id", user.id);
+
+    if (updateError) {
+      return { success: false, error: "Failed to update password: " + updateError.message };
+    }
+
+    return { success: true };
+  } catch (err: unknown) {
+    const message = err instanceof Error ? err.message : "Server error occurred while updating password";
+    return { success: false, error: message };
+  }
+}
